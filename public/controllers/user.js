@@ -2,12 +2,17 @@ var app = angular.module('post');
 
 app.controller('userController', user);
 
-app.$inject = ['$http'];
+app.$inject = ['$http', 'dashboard'];
 
-function user($http) {
+function user($http, dashboard) {
   var vm = this;
   vm.error = false;
   vm.card = 'views/user.html';
+  activate();
+
+  function activate() {
+    dashboard.get(vm);
+  }
 
   vm.signup = function(user, password) {
     var signup = $http.post(
@@ -15,9 +20,10 @@ function user($http) {
       { user: user, password: password }
     );
     signup.then(function(results) {
+      dashboard.get(vm);
       vm.card = './views/dashboard.html';
     }, function(error) {
-      vm.error = true;
+      vm.error = 409;
     })
   }
 
@@ -27,17 +33,15 @@ function user($http) {
       { user: user, password: password }
     );
     login.then(function(response) {
+      dashboard.get(vm);
       vm.card = './views/dashboard.html';
     }, function(error) {
-      vm.error = true;
+      vm.error = 401;
     })
   }
 
   vm.logout = function(user) {
-    var logout = $http.post(
-      'http://localhost:1337/user/logout',
-      { user: user }
-    );
+    var logout = $http.get('http://localhost:1337/user/logout');
     logout.then(function(results) {
       vm.error = false;
       vm.card = './views/user.html'

@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 // middleware
 var jsonParser = require('body-parser').json();
-var cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser')();
 // routes
 var user = require('./routes/user');
 // mongoose
@@ -27,7 +27,7 @@ mongoose.connection.on('connected', function() {
   console.log('Connected to MongoDB');
 });
 
-app.use(jsonParser);
+app.use(jsonParser, cookieParser);
 app.use('/user', user);
 app.use(express.static('public'));
 
