@@ -1,0 +1,17 @@
+<div class="content">
+  <div class="header">{{ user.user }}
+    <span class="right floated meta">+{{ user.score }}</span>
+  </div>
+  <div class="meta">Dashboard</div>
+  <div class="description">
+    <i class="browser icon icon"></i>{{ user.posts }} Post<br>
+    <i class="chevron up icon"></i>{{ user.upvotes }} Upvotes<br>
+    <i class="chevron down icon"></i>{{ user.downvotes }} Downvotes<br>
+    <i class="tag icon"></i>{{ user.saves }} Saves<br>
+  </div>
+</div>
+<div class="extra content">
+  <a ng-click="user.logout()">
+    <i class="leaf icon"></i>Log out
+  </a>
+</div>
