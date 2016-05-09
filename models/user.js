@@ -5,11 +5,11 @@ var userSchema = new Schema({
   user: String,
   hash: String,
   session: String,
-  posts: Number,
-  upvotes: Number,
-  downvotes: Number,
-  saves: Number,
-  score: Number
+  posts: { type: Number, default: 0 },
+  upvotes: { type: Number, default: 0 },
+  downvotes: { type: Number, default: 0 },
+  saves: { type: Number, default: 0 },
+  score: { type: Number, default: 0 }
 });
 
 var User = mongoose.model('User', userSchema);

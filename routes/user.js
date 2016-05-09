@@ -27,16 +27,41 @@ router.post('/', function(req, res) {
   })
 })
 
+router.get('/', function(req, res) {
+  if (req.cookie.user && req.cookie.session) {
+    User.findOne({ user: req.cookie.user }, function(error, results) {
+      if (error) {
+        res.json({ info: 'Error during find user', error: error });
+        return;
+      }
+
+      var user = results;
+      if (user.session === req.cookie.session) {
+        var payload = {
+          posts: user.posts,
+          upvotes: user.upvotes,
+          downvotes: user.downvotes,
+          saves: user.saves,
+          score: user.score
+        }
+        res.send(payload);
+      }
+
+      res.send();
+    })
+  }
+})
+
 router.post('/login', function(req, res) {
   var session = makeCookie();
 
-  User.find({ user: req.body.user }, function(error, results) {
+  User.findOne({ user: req.body.user }, function(error, results) {
     if (error) {
       res.json({ info: 'Error during find user', error: error });
       return;
     }
 
-    var user = results[0];
+    var user = results;
     var password = req.body.password;
     var hash = user.hash;
 
@@ -61,13 +86,13 @@ router.post('/login', function(req, res) {
 })
 
 router.post('/logout', function(req, res) {
-  User.find({ user: req.body.user }, function(error, results) {
+  User.findOne({ user: req.body.user }, function(error, results) {
     if (error) {
       res.json({ info: 'Error during find user', error: error });
       return;
     }
 
-    user = results[0];
+    user = results;
     user.session = null;
     user.save(function(error) {
       if (error) {
@@ -90,7 +115,7 @@ function makeCookie() {
     var pick = Math.floor(Math.random() * 62);
     cookie += chars[pick];
   }
-  
+
   return cookie;
 }
 
