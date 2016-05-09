@@ -1,0 +1,41 @@
+body {
+  background-color: #0E1821
+}
+
+.hidden {
+  display: none !important;
+}
+
+.wrapper {
+  margin-top: 0px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 1200px !important;
+}
+
+.menu {
+  border: 0 !important;
+}
+
+.nav {
+  width: 100%;
+  background-color: #fff;
+}
+
+.nav-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.main-padding {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+.ui.comments, .comment {
+  max-width: 100% !important;
+}
+
+.ui.statistic>.value {
+  font-size: 1rem !important;
+}
