@@ -60,6 +60,10 @@ router.post('/login', function(req, res) {
       res.json({ info: 'Error during find user', error: error });
       return;
     }
+    if (results === null) {
+      res.status(401).json({ info: 'Invalid user/password' });
+      return;
+    }
 
     var user = results;
     var password = req.body.password;
@@ -76,11 +80,11 @@ router.post('/login', function(req, res) {
 
         res.cookie('user', req.body.user);
         res.cookie('session', session);
-        res.json({ info: 'User logged in successfully', session });
+        res.status(200).json({ info: 'User logged in successfully' });
         return;
       }
 
-      res.json({ info: 'User log in failed; Wrong password' });
+      res.status(401).json({ info: 'Invalid user/password' });
     })
   })
 })
@@ -91,7 +95,7 @@ router.post('/logout', function(req, res) {
       res.json({ info: 'Error during find user', error: error });
       return;
     }
-
+    console.log(results);
     user = results;
     user.session = null;
     user.save(function(error) {
@@ -102,7 +106,7 @@ router.post('/logout', function(req, res) {
 
     res.clearCookie('user');
     res.clearCookie('session');
-    res.json({ info: 'User logged in successfully' });
+    res.json({ info: 'User logged out successfully' });
   })
 })
 

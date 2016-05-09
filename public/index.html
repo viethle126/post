@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en-us">
+  <meta charset="utf-8">
+  <title>post</title>
+  <link rel="stylesheet" href="./dist/semantic.min.css">
+  <link rel="stylesheet" href="./css/app.css">
+</head>
+<body ng-app="post">
+  <!-- nav -->
+  <div class="nav">
+    <div class="ui grid wrapper">
+      <div class="four wide nav-padding column"></div>
+      <div class="twelve wide nav-padding column">
+        <div class="ui attached secondary menu">
+          <a class="item">
+            <i class="rocket icon"></i>Post
+          </a>
+          <a class="item">
+            <i class="home icon"></i>Home
+          </a>
+          <a class="item">
+            <i class="tags icon"></i>Saved
+          </a>
+          <div class="ui category search wider right item">
+            <div class="ui transparent icon input">
+              <input type="text" placeholder="Search...">
+              <i class="search link icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- page wrapper -->
+  <div class="ui grid wrapper main-padding">
+    <!-- left container  -->
+    <div class="four wide column">
+      <!-- dashboard -->
+      <div class="ui card" ng-controller="userController as user" ng-include="user.card">
+      </div>
+    </div>
+    <!-- end left container -->
+    <!-- right container -->
+    <div class="twelve wide column">
+    </div>
+    <!-- end right container -->
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+  <script src="./dist/semantic.min.js"></script>
+  <script src="./app.js"></script>
+  <script src="./controllers/user.js"></script>
+</body>
+</html>
