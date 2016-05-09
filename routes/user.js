@@ -69,39 +69,6 @@ router.get('/', function(req, res) {
   }
 })
 
-router.delete('/', function(req, res) {
-  User.findOne({ user: req.body.user }, function(error, results) {
-    if (error) {
-      res.json({ info: 'Error during find user', error: error });
-      return;
-    }
-
-    if (results === null) {
-      res.status(401).json({ info: 'Invalid user/password' });
-      return;
-    }
-
-    var user = results;
-    var password = req.body.password;
-    var hash = user.hash;
-
-    bcrypt.compare(password, hash, function(error, results) {
-      if (results === true) {
-        user.remove(user, function(error) {
-          if (error) {
-            throw new Error(error);
-          }
-        })
-
-        res.status(200).json({ info: 'User removed successfully' });
-        return;
-      }
-
-      res.status(401).json({ info: 'Invalid user/password' });
-    })
-  })
-})
-
 router.post('/login', function(req, res) {
   var session = makeCookie();
 
