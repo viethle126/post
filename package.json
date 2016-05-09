@@ -1,0 +1,33 @@
+{
+  "name": "post",
+  "version": "1.0.0",
+  "description": "AngularJS-flavored message board",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viethle126/post.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viethle126/post/issues"
+  },
+  "homepage": "https://github.com/viethle126/post#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.6",
+    "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.14",
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.0.6",
+    "semantic-ui": "^2.1.8"
+  }
+}
