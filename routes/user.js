@@ -4,40 +4,54 @@ var bcrypt = require('bcrypt');
 var User = require('../models/user');
 
 router.post('/', function(req, res) {
-  var saltRounds = 10;
-  var password = req.body.password;
-
-  bcrypt.hash(password, saltRounds, function(error, hash) {
+  User.findOne({ user: req.body.user }, function(error, results) {
     if (error) {
-      res.json({ info: 'Error during generate hash', error: error });
+      res.json({ info: 'Error during find user', error: error });
       return;
     }
 
-    var user = new User({ user: req.body.user, hash: hash });
-    user.save(function(error) {
+    if (results !== null) {
+      res.status(409).json({ info: 'Name already in use' });
+      return;
+    }
+
+    var saltRounds = 10;
+    var password = req.body.password;
+
+    bcrypt.hash(password, saltRounds, function(error, hash) {
       if (error) {
-        res.json({ info: 'Error during user sign up', error: error });
+        res.json({ info: 'Error during generate hash', error: error });
         return;
       }
 
-      res.cookie('user', req.body.user);
-      res.cookie('session', makeCookie());
-      res.json({ info: 'User signed up successfully' });
+      var session = makeCookie();
+      var user = new User({ user: req.body.user, hash: hash, session: session });
+      user.save(function(error) {
+        if (error) {
+          res.json({ info: 'Error during user sign up', error: error });
+          return;
+        }
+
+        res.cookie('user', req.body.user);
+        res.cookie('session', session);
+        res.status(200).json({ info: 'User signed up successfully' });
+      })
     })
   })
 })
 
 router.get('/', function(req, res) {
-  if (req.cookie.user && req.cookie.session) {
-    User.findOne({ user: req.cookie.user }, function(error, results) {
+  if (req.cookies.user && req.cookies.session) {
+    User.findOne({ user: req.cookies.user }, function(error, results) {
       if (error) {
         res.json({ info: 'Error during find user', error: error });
         return;
       }
 
       var user = results;
-      if (user.session === req.cookie.session) {
+      if (user !== null && user.session === req.cookies.session) {
         var payload = {
+          user: user.user,
           posts: user.posts,
           upvotes: user.upvotes,
           downvotes: user.downvotes,
@@ -45,10 +59,13 @@ router.get('/', function(req, res) {
           score: user.score
         }
         res.send(payload);
+        return;
       }
 
       res.send();
     })
+  } else {
+    res.send();
   }
 })
 
@@ -89,13 +106,12 @@ router.post('/login', function(req, res) {
   })
 })
 
-router.post('/logout', function(req, res) {
-  User.findOne({ user: req.body.user }, function(error, results) {
+router.get('/logout', function(req, res) {
+  User.findOne({ user: req.cookies.user }, function(error, results) {
     if (error) {
       res.json({ info: 'Error during find user', error: error });
       return;
     }
-    console.log(results);
     user = results;
     user.session = null;
     user.save(function(error) {
@@ -106,7 +122,7 @@ router.post('/logout', function(req, res) {
 
     res.clearCookie('user');
     res.clearCookie('session');
-    res.json({ info: 'User logged out successfully' });
+    res.status(200).json({ info: 'User logged out successfully' });
   })
 })
 
