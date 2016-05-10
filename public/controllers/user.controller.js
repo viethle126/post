@@ -15,10 +15,13 @@ function user($http, dashboard) {
   }
 
   vm.signup = function(user, password) {
-    var signup = $http.post(
-      'http://localhost:1337/user',
-      { user: user, password: password }
-    );
+    var data = {
+      user: user,
+      password: password
+    }
+
+    var signup = $http.post('/user', data);
+
     signup.then(function(results) {
       dashboard.get(vm);
       vm.card = '../views/dashboard.view.html';
@@ -28,10 +31,13 @@ function user($http, dashboard) {
   }
 
   vm.login = function(user, password) {
-    var login = $http.post(
-      'http://localhost:1337/user/login',
-      { user: user, password: password }
-    );
+    var data = {
+      user: user,
+      password: password
+    }
+
+    var login = $http.post('/user/login', data);
+
     login.then(function(response) {
       dashboard.get(vm);
       vm.card = '../views/dashboard.view.html';
@@ -41,7 +47,8 @@ function user($http, dashboard) {
   }
 
   vm.logout = function(user) {
-    var logout = $http.get('http://localhost:1337/user/logout');
+    var logout = $http.get('/user/logout');
+
     logout.then(function(results) {
       vm.error = false;
       vm.card = '../views/login.view.html';

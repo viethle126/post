@@ -7,7 +7,7 @@ dashboard.$inject = ['$http'];
 function dashboard($http) {
 
   function get(vm) {
-    var dash = $http.get('http://localhost:1337/user');
+    var dash = $http.get('/user');
 
     dash.then(function(results) {
       if (results.data) {
