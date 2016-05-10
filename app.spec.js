@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var request = require('request');
+var request = request.defaults({ jar: true });
 // server
 var RANDOMIZE = 0;
 var app = require('./app.js');
@@ -9,23 +10,23 @@ var port = server.address().port;
 var mongoose = require('mongoose');
 var User = require('./models/user');
 
-var testUser = {
-  user: 'postUserTest',
-  password: 'post'
-}
-
-var wrongUser = {
-  user: 'postUserTest',
-  password: 'wrong'
-}
-
-var unknownUser = {
-  user: 'wrongUserTest',
-  password: 'wrong'
-}
-
 // user
 describe('/user', function() {
+  var testUser = {
+    user: 'postUserTest',
+    password: 'post'
+  }
+
+  var wrongUser = {
+    user: 'postUserTest',
+    password: 'wrong'
+  }
+
+  var unknownUser = {
+    user: 'wrongUserTest',
+    password: 'wrong'
+  }
+
   // create new user
   describe('Post request to /user', function() {
     it('is creating a new user', function(done) {
@@ -97,6 +98,83 @@ describe('/user', function() {
         assert.equal(error, null);
         assert.equal(response.statusCode, 401);
         assert.equal(body.info, 'Invalid user/password');
+        done();
+      })
+    })
+  })
+})
+
+describe('/posts', function() {
+  var testUser = {
+    user: 'postUserTest',
+    password: 'post'
+  }
+
+  var newPost = {
+    title: 'This is a test-generated title',
+    content: 'This is test-generated content'
+  }
+
+  var editPost = {
+    title: 'This is an edited title',
+    content: 'This is edited content'
+  }
+
+  // create post
+  describe('Post request to /posts', function() {
+    it('is creating a new post', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/posts',
+        method: 'POST',
+        json: newPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Post submitted successfully');
+        done();
+      })
+    })
+  })
+  // read posts
+  describe('Get request to /posts', function() {
+    it('is retrieving posts', function(done) {
+      request('http://localhost:' + port + '/posts',
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        var added = parsed.results[parsed.results.length - 1];
+        editPost.post_id = added._id;
+        // set editPost.post_ID for next test
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Posts retrieved successfully');
+        done();
+      })
+    })
+  })
+  describe('Put request to /posts', function() {
+    it('is updating a post', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/posts',
+        method: 'PUT',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Post updated successfully');
+        done();
+      })
+    })
+  })
+  describe('Delete request to /posts', function() {
+    it('is deleting a post', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/posts',
+        method: 'DELETE',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Post deleted successfully');
         done();
       })
     })

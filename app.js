@@ -5,7 +5,7 @@ var jsonParser = require('body-parser').json();
 var cookieParser = require('cookie-parser')();
 // routes
 var user = require('./routes/user');
-var submit = require('./routes/submit');
+var posts = require('./routes/posts');
 var verify = require('./routes/verify');
 // mongoose
 var mongoose = require('mongoose');
@@ -31,7 +31,7 @@ mongoose.connection.on('connected', function() {
 
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
-app.use('/submit', verify, submit);
+app.use('/posts', posts);
 app.use(express.static('public'));
 
 if (!require.main.loaded) {

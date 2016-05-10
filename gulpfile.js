@@ -10,7 +10,7 @@ gulp.task('lint', function() {
   .pipe(eslint.failAfterError())
 })
 
-gulp.task('mocha', function () {
+gulp.task('mocha', ['lint'], function () {
   return gulp.src('app.spec.js')
   .pipe(mocha())
   .once('end', function() {
