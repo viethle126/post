@@ -5,6 +5,8 @@ var jsonParser = require('body-parser').json();
 var cookieParser = require('cookie-parser')();
 // routes
 var user = require('./routes/user');
+var submit = require('./routes/submit');
+var verify = require('./routes/verify');
 // mongoose
 var mongoose = require('mongoose');
 var options = {
@@ -29,6 +31,7 @@ mongoose.connection.on('connected', function() {
 
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
+app.use('/submit', verify, submit);
 app.use(express.static('public'));
 
 if (!require.main.loaded) {
