@@ -15,7 +15,7 @@ function verify(req, res, next) {
         res.status(401).json({ info: 'You must be logged in to do that' });
         return;
       }
-
+      req.currentUser = results._id;
       next();
     })
   } else {
