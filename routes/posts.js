@@ -29,18 +29,20 @@ router.get('/', function(req, res) {
       res.json({ info: 'Error during find posts', error: error });
       return;
     }
-    res.status(200).json({ info: 'Posts retrieved successfully', results: results });
+
+    res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
 // read saved
 router.get('/saved', function(req, res) {
   var user = req.currentUser.toString();
-  Post.find({ 'saves': user }, function(error, results) {
+  Post.find({ 'saves': user }).lean().exec(function(error, results) {
     if (error) {
       res.json({ info: 'Error during find posts', error: error });
       return;
     }
-    res.status(200).json({ info: 'Posts retrieved successfully', results: results });
+
+    res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
 // update
@@ -94,5 +96,23 @@ router.delete('/', function(req, res) {
     res.status(200).json({ info: 'Post deleted successfully' });
   })
 })
+// used to dynamically display user's upvotes/downvotes on a post
+function addTracker(req, results) {
+  results.forEach(function(element, index, array) {
+    element.change = 0;
+
+    if (element.upvotes.indexOf(req.currentUser.toString()) !== -1) {
+      return element.value = 1;
+    }
+
+    if (element.downvotes.indexOf(req.currentUser.toString()) !== -1) {
+      return element.value = -1;
+    }
+
+    return element.value = 0;
+  })
+
+  return results;
+}
 
 module.exports = router;
