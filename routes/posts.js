@@ -24,7 +24,7 @@ router.post('/', function(req, res) {
 })
 // read
 router.get('/', function(req, res) {
-  Post.find({}, function(error, results) {
+  Post.find({}).lean().exec(function(error, results) {
     if (error) {
       res.json({ info: 'Error during find posts', error: error });
       return;
