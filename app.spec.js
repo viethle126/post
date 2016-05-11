@@ -12,6 +12,9 @@ var User = require('./models/user');
 
 // user
 describe('Test /user', function() {
+  this.timeout(0);
+  this.slow(1400);
+
   var testUser = {
     user: 'postUserTest',
     password: 'post'
@@ -106,6 +109,9 @@ describe('Test /user', function() {
 
 // post and vote
 describe('Test /posts and /vote', function() {
+  this.timeout(0);
+  this.slow(1400);
+
   var testUser = {
     user: 'postUserTest',
     password: 'post'
