@@ -2,11 +2,13 @@
   <div class="item">
     <div class="ui image">
       <div class="ui statistic">
-        <a class="label"><i class="fitted caret up icon"></i></a>
-        <div class="value">
-          {{item.upvotes - item.downvotes}}
-        </div>
-        <a class="label"><i class="fitted caret down icon"></i></a>
+        <a class="label" ng-click="post.up(item)">
+          <i class="fitted chevron up icon" ng-class="{ blue: item.value === 1 }"></i>
+        </a>
+        <div class="value">{{item.upvotes.length - item.downvotes.length + item.change}}</div>
+        <a class="label" ng-click="post.down(item)">
+          <i class="fitted chevron down icon" ng-class="{ blue: item.value === -1 }"></i>
+        </a>
       </div>
     </div>
     <div class="content">
@@ -14,7 +16,7 @@
       <div class="meta">
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="item.date"></span>
-        <span class="itemspan">by {{item.user}}</span>
+        <span>by {{item.user}}</span>
         <a ng-show="item.comments === 1">{{item.comments}} comment</a>
         <a ng-show="item.comments !== 1">{{item.comments}} comments</a>
         <a>save</a>

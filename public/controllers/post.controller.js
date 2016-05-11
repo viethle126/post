@@ -42,7 +42,8 @@ function post($http, $location, $scope, moment) {
     request.then(function(response) {
       var posts = response.data.results;
       vm.list = posts !== undefined ? posts.reverse() : [];
-      return vm.list
+
+      return vm.list;
     })
   }
 
@@ -52,7 +53,32 @@ function post($http, $location, $scope, moment) {
     request.then(function(response) {
       var posts = response.data.results;
       vm.list = posts !== undefined ? posts.reverse() : [];
-      return vm.list
+
+      return vm.list;
     })
+  }
+
+  vm.up = function(item) {
+    if (item.value !== 1) {
+      item.change+= 1 - item.value;
+      return item.value = 1;
+    }
+
+    if (item.value === 1) {
+      item.change--;
+      return item.value = 0;
+    }
+  }
+
+  vm.down = function(item) {
+    if (item.value !== -1) {
+      item.change-= 1 + item.value;
+      return item.value = -1;
+    }
+
+    if (item.value === -1) {
+      item.change++;
+      return item.value = 0;
+    }
   }
 }
