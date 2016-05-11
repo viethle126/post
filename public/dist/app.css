@@ -1,5 +1,7 @@
 body {
-  background-color: #0E1821
+  background: url('../images/background.jpg') top right no-repeat;
+  background-size: auto 105%;
+  background-attachment: fixed;
 }
 
 .hidden {
@@ -7,7 +9,7 @@ body {
 }
 
 .wrapper {
-  margin-top: 0px !important;
+  margin-top: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
   max-width: 1200px !important;
@@ -38,4 +40,12 @@ body {
 
 .ui.statistic>.value {
   font-size: 1rem !important;
+}
+
+.itemspan {
+  margin: 0 !important;
+}
+
+div.ui.image {
+  width: 25px !important;
 }
