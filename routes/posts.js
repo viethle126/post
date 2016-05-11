@@ -32,6 +32,17 @@ router.get('/', function(req, res) {
     res.status(200).json({ info: 'Posts retrieved successfully', results: results });
   })
 })
+// read saved
+router.get('/saved', function(req, res) {
+  var user = req.currentUser.toString();
+  Post.find({ 'saves': user }, function(error, results) {
+    if (error) {
+      res.json({ info: 'Error during find posts', error: error });
+      return;
+    }
+    res.status(200).json({ info: 'Posts retrieved successfully', results: results });
+  })
+})
 // update
 router.put('/', function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {

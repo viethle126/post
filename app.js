@@ -31,7 +31,7 @@ mongoose.connection.on('connected', function() {
 
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
-app.use('/posts', posts);
+app.use('/posts', verify, posts);
 app.use(express.static('public'));
 
 if (!require.main.loaded) {
