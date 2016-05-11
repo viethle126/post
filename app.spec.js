@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 var User = require('./models/user');
 
 // user
-describe('/user', function() {
+describe('Test /user', function() {
   var testUser = {
     user: 'postUserTest',
     password: 'post'
@@ -104,7 +104,8 @@ describe('/user', function() {
   })
 })
 
-describe('/posts', function() {
+// post and vote
+describe('Test /posts and /vote', function() {
   var testUser = {
     user: 'postUserTest',
     password: 'post'
@@ -151,6 +152,7 @@ describe('/posts', function() {
       })
     })
   })
+  // update post
   describe('Put request to /posts', function() {
     it('is updating a post', function(done) {
       request({
@@ -165,6 +167,54 @@ describe('/posts', function() {
       })
     })
   })
+  // add upvote
+  describe('Put request to /vote, upvote', function() {
+    it('is upvoting a post', function(done) {
+      editPost.type = 'upvotes';
+      request({
+        url: 'http://localhost:' + port + '/vote/post',
+        method: 'PUT',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote added successfully');
+        done();
+      })
+    })
+  })
+  // add downvote
+  describe('Put request to /vote, downvote', function() {
+    it('is downvoting a post', function(done) {
+      editPost.type = 'downvotes';
+      request({
+        url: 'http://localhost:' + port + '/vote/post',
+        method: 'PUT',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote added successfully');
+        done();
+      })
+    })
+  })
+  // clear votes
+  describe('Delete request to /vote', function() {
+    it('is clearing votes from a post', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/vote/post',
+        method: 'DELETE',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote cleared successfully');
+        done();
+      })
+    })
+  })
+  // delete post
   describe('Delete request to /posts', function() {
     it('is deleting a post', function(done) {
       request({
