@@ -7,11 +7,11 @@ app.$inject = ['$http', '$location'];
 function submit($http, $location) {
   var vm = this;
 
-  vm.submit = function(title, link, text) {
+  vm.submit = function(title, link, content) {
     var data = {
       title: title,
       link: link,
-      text: text
+      content: content
     }
 
     var post = $http.post('/posts', data);
