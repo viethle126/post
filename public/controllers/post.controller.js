@@ -2,9 +2,9 @@ var app = angular.module('post');
 
 app.controller('postController', post);
 
-app.$inject = ['$http', '$location', '$scope', 'moment'];
+app.$inject = ['$http', '$location', '$scope', 'moment', 'voter'];
 
-function post($http, $location, $scope, moment) {
+function post($http, $location, $scope, moment, voter) {
   var vm = this;
   vm.list = [];
 
@@ -60,11 +60,13 @@ function post($http, $location, $scope, moment) {
 
   vm.up = function(item) {
     if (item.value !== 1) {
+      voter.retract(item, 'upvotes');
       item.change+= 1 - item.value;
       return item.value = 1;
     }
 
     if (item.value === 1) {
+      voter.retract(item);
       item.change--;
       return item.value = 0;
     }
@@ -72,11 +74,13 @@ function post($http, $location, $scope, moment) {
 
   vm.down = function(item) {
     if (item.value !== -1) {
+      voter.retract(item, 'downvotes');
       item.change-= 1 + item.value;
       return item.value = -1;
     }
 
     if (item.value === -1) {
+      voter.retract(item);
       item.change++;
       return item.value = 0;
     }
