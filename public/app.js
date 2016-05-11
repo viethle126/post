@@ -1,4 +1,4 @@
-var app = angular.module('post', ['ngRoute']);
+var app = angular.module('post', ['ngRoute', 'angularMoment']);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider
@@ -6,10 +6,10 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'views/submit.view.html',
   })
   .when('/home', {
-    templateUrl: 'views/home.view.html',
+    templateUrl: 'views/posts.view.html',
   })
   .when('/saved', {
-    templateUrl: 'views/saved.view.html',
+    templateUrl: 'views/posts.view.html',
   })
   .otherwise({
     redirectTo: '/home'

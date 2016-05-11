@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <title>post</title>
   <link rel="stylesheet" href="./dist/semantic.min.css">
-  <link rel="stylesheet" href="./css/app.css">
+  <link rel="stylesheet" href="./dist/app.css">
 </head>
 <body ng-app="post">
   <navbar></navbar>
   <!-- page wrapper -->
-  <div class="ui grid wrapper main-padding">
+  <div class="ui grid wrapper main-padding" ng-controller="postController as post">
     <!-- left container  -->
     <div class="four wide column">
       <div class="ui card" ng-controller="userController as user" ng-include="user.card"></div>
@@ -19,14 +19,19 @@
   </div>
   <!-- end page wrapper -->
   <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+  <!-- jQuery is a Semantic UI dependency -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
   <script src="./dist/semantic.min.js"></script>
   <script src="./app.js"></script>
   <script src="./controllers/nav.controller.js"></script>
   <script src="./controllers/user.controller.js"></script>
+  <script src="./controllers/post.controller.js"></script>
   <script src="./controllers/submit.controller.js"></script>
   <script src="./directives/navbar.directive.js"></script>
+  <script src="./directives/list.directive.js"></script>
   <script src="./services/dashboard.service.js"></script>
 </body>
 </html>
