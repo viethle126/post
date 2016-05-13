@@ -107,7 +107,7 @@ describe('Test /user', function() {
   })
 })
 
-// post and vote
+// post, comment and vote
 describe('Test /posts and /vote', function() {
   this.timeout(0);
   this.slow(1400);
@@ -125,6 +125,24 @@ describe('Test /posts and /vote', function() {
   var editPost = {
     title: 'This is an edited title',
     content: 'This is edited content'
+  }
+
+  var newComment = {
+    comment: 'This is a test-generated comment to a post',
+    reply_to: 'post'
+  }
+
+  var editComment = {
+    comment: 'This is an edited comment',
+    reply_to: 'post'
+  }
+
+  var newReply = {
+    comment: 'This is a test-generated reply to another comment'
+  }
+
+  var editReply = {
+    comment: 'This is an edited reply',
   }
 
   // create post
@@ -150,7 +168,11 @@ describe('Test /posts and /vote', function() {
         var parsed = JSON.parse(body);
         var added = parsed.results[parsed.results.length - 1];
         editPost.post_id = added._id;
-        // set editPost.post_ID for next test
+        newComment.post_id = added._id;
+        editComment.post_id = added._id;
+        newReply.post_id = added._id;
+        editReply.post_id = added._id;
+        // set post_id for other tests
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Posts retrieved successfully');
@@ -216,6 +238,130 @@ describe('Test /posts and /vote', function() {
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote cleared successfully');
+        done();
+      })
+    })
+  })
+  // create comment
+  describe('Post request to /comments (reply to a post)', function() {
+    it('is creating a new comment', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'POST',
+        json: newComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment submitted successfully');
+        done();
+      })
+    })
+  })
+  // read comment
+  describe('Get request to /comments', function() {
+    it('is retrieving comments', function(done) {
+      request('http://localhost:' + port + '/comments/' + newComment.post_id,
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        var added = parsed.results[parsed.results.length - 1];
+        editComment.comment_id = added._id;
+        newReply.reply_to = added._id;
+        editReply.reply_to = added._id;
+        // set comment_id for other tests
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Comments retrieved successfully');
+        done();
+      })
+    })
+  })
+  // update comment
+  describe('Put request to /comments', function() {
+    it('is updating a comment', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'PUT',
+        json: editComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment updated successfully');
+        done();
+      })
+    })
+  })
+  // create reply
+  describe('Post request to /comments (reply to a comment)', function() {
+    it('is creating a new reply', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'POST',
+        json: newReply
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment submitted successfully');
+        done();
+      })
+    })
+  })
+  // read reply
+  describe('Get request to /comments', function() {
+    it('is retrieving replies', function(done) {
+      request('http://localhost:' + port + '/comments/' + newReply.post_id,
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        var added = parsed.results[parsed.results.length - 1];
+        editReply.comment_id = added._id;
+        // set comment_id for other tests
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Comments retrieved successfully');
+        done();
+      })
+    })
+  })
+  // update reply
+  describe('Put request to /comments', function() {
+    it('is updating a comment', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'PUT',
+        json: editReply
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment updated successfully');
+        done();
+      })
+    })
+  })
+  // delete reply
+  describe('Delete request to /comments', function() {
+    it('is deleting a reply', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'DELETE',
+        json: editReply
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment deleted successfully');
+        done();
+      })
+    })
+  })
+  // delete comment
+  describe('Delete request to /comments', function() {
+    it('is deleting a comment', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/comments',
+        method: 'DELETE',
+        json: editComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Comment deleted successfully');
         done();
       })
     })
