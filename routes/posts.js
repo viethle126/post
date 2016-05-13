@@ -10,7 +10,7 @@ router.post('/', function(req, res) {
     date: Date(),
     title: req.body.title,
     link: req.body.link,
-    content: req.body.content,
+    content: req.body.content
   })
 
   post.save(function(error) {
@@ -116,3 +116,4 @@ function addTracker(req, results) {
 }
 
 module.exports = router;
+module.exports.addTracker = addTracker;

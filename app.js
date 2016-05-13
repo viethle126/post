@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser')();
 // routes
 var user = require('./routes/user');
 var posts = require('./routes/posts');
+var comments = require('./routes/comments');
 var vote = require('./routes/vote');
 var verify = require('./routes/verify');
 // mongoose
@@ -33,6 +34,7 @@ mongoose.connection.on('connected', function() {
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
 app.use('/posts', verify, posts);
+app.use('/comments', verify, comments);
 app.use('/vote', verify, vote);
 app.use(express.static('public'));
 
