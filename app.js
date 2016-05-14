@@ -33,8 +33,8 @@ mongoose.connection.on('connected', function() {
 
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
-app.use('/posts', verify, posts);
-app.use('/comments', verify, comments);
+app.use('/posts', posts);
+app.use('/comments', comments);
 app.use('/vote', verify, vote);
 app.use(express.static('public'));
 

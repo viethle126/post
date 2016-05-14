@@ -1,9 +1,10 @@
 var router = require('express').Router();
+var verify = require('./verify');
 // mongoose
 var Post = require('../models/post');
 
 // create
-router.post('/', function(req, res) {
+router.post('/', verify, function(req, res) {
   var post = new Post({
     user: req.cookies.user,
     user_id: req.currentUser,
@@ -34,7 +35,7 @@ router.get('/', function(req, res) {
   })
 })
 // read saved
-router.get('/saved', function(req, res) {
+router.get('/saved', verify, function(req, res) {
   var user = req.currentUser.toString();
   Post.find({ 'saves': user }).lean().exec(function(error, results) {
     if (error) {
@@ -46,7 +47,7 @@ router.get('/saved', function(req, res) {
   })
 })
 // update
-router.put('/', function(req, res) {
+router.put('/', verify, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
     if (error) {
       res.json({ info: 'Error during find post', error: error });
@@ -74,7 +75,7 @@ router.put('/', function(req, res) {
   })
 })
 // delete
-router.delete('/', function(req, res) {
+router.delete('/', verify, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
     if (error) {
       res.json({ info: 'Error during find post' });
@@ -100,6 +101,10 @@ router.delete('/', function(req, res) {
 function addTracker(req, results) {
   results.forEach(function(element, index, array) {
     element.change = 0;
+
+    if (!req.currentUser) {
+      return element.value = 0;
+    }
 
     if (element.upvotes.indexOf(req.currentUser.toString()) !== -1) {
       return element.value = 1;

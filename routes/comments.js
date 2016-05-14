@@ -1,10 +1,11 @@
 var router = require('express').Router();
+var verify = require('./verify');
 var addTracker = require('./posts').addTracker;
 // mongoose
 var Comment = require('../models/comment');
 
 // create
-router.post('/', function(req, res) {
+router.post('/', verify, function(req, res) {
   var comment = new Comment({
     user: req.cookies.user,
     user_id: req.currentUser,
@@ -34,7 +35,7 @@ router.get('/:post_id', function(req, res) {
   })
 })
 // update
-router.put('/', function(req, res) {
+router.put('/', verify, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
     if (error) {
       res.json({ info: 'Error during find comment', error: error });
@@ -60,7 +61,7 @@ router.put('/', function(req, res) {
   })
 })
 // delete
-router.delete('/', function(req, res) {
+router.delete('/', verify, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
     if (error) {
       res.json({ info: 'Error during find comment' });
