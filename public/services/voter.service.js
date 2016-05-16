@@ -40,30 +40,30 @@ function voter($http) {
   }
 
   function up(item) {
-    if (item.value !== 1) {
-      retract(item, 'upvotes');
-      item.change+= 1 - item.value;
-      return item.value = 1;
-    }
-
-    if (item.value === 1) {
+    if (item.state === 'upvoted') {
       retract(item);
-      item.change--;
-      return item.value = 0;
+      item.state = 'neutral'
+      item.score = item.up[1];
+      return item;
+    } else {
+      retract(item, 'upvotes');
+      item.state = 'upvoted';
+      item.score = item.up[0];
+      return item;
     }
   }
 
   function down(item) {
-    if (item.value !== -1) {
-      retract(item, 'downvotes');
-      item.change-= 1 + item.value;
-      return item.value = -1;
-    }
-
-    if (item.value === -1) {
+    if (item.state === 'downvoted') {
       retract(item);
-      item.change++;
-      return item.value = 0;
+      item.state = 'neutral'
+      item.score = item.down[1];
+      return item;
+    } else {
+      retract(item, 'downvotes');
+      item.state = 'downvoted';
+      item.score = item.down[0];
+      return item;
     }
   }
 

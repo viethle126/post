@@ -3,11 +3,11 @@
     <div class="ui image">
       <div class="ui statistic">
         <a class="label" ng-click="post.up(item)">
-          <i class="fitted chevron up icon" ng-class="{ blue: item.value === 1 }"></i>
+          <i class="fitted chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
         </a>
-        <div class="value">{{item.upvotes.length - item.downvotes.length + item.change}}</div>
+        <div class="value">{{item.score}}</div>
         <a class="label" ng-click="post.down(item)">
-          <i class="fitted chevron down icon" ng-class="{ blue: item.value === -1 }"></i>
+          <i class="fitted chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
         </a>
       </div>
     </div>
