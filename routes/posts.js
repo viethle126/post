@@ -1,10 +1,10 @@
 var router = require('express').Router();
-var verify = require('./verify');
+var forbid = require('./forbid');
 // mongoose
 var Post = require('../models/post');
 
 // create
-router.post('/', verify, function(req, res) {
+router.post('/', forbid, function(req, res) {
   var post = new Post({
     user: req.cookies.user,
     user_id: req.currentUser,
@@ -35,7 +35,7 @@ router.get('/', function(req, res) {
   })
 })
 // read saved
-router.get('/saved', verify, function(req, res) {
+router.get('/saved', forbid, function(req, res) {
   var user = req.currentUser.toString();
   Post.find({ 'saves': user }).lean().exec(function(error, results) {
     if (error) {
@@ -58,7 +58,7 @@ router.get('/one/:post_id', function(req, res) {
   })
 })
 // update
-router.put('/', verify, function(req, res) {
+router.put('/', forbid, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
     if (error) {
       res.json({ info: 'Error during find post', error: error });
@@ -86,7 +86,7 @@ router.put('/', verify, function(req, res) {
   })
 })
 // delete
-router.delete('/', verify, function(req, res) {
+router.delete('/', forbid, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
     if (error) {
       res.json({ info: 'Error during find post' });
@@ -111,23 +111,29 @@ router.delete('/', verify, function(req, res) {
 // used to dynamically display user's upvotes/downvotes on a post
 function addTracker(req, results) {
   results.forEach(function(element, index, array) {
-    element.change = 0;
+    element.score = element.upvotes.length - element.downvotes.length;
+    element.up = [element.score + 1, element.score];
+    element.down = [element.score - 1, element.score];
+    element.state = 'neutral';
 
     if (!req.currentUser) {
-      return element.value = 0;
+      return;
     }
 
     if (element.upvotes.indexOf(req.currentUser.toString()) !== -1) {
-      return element.value = 1;
+      element.state = 'upvoted';
+      element.up = [element.score, element.score - 1];
+      element.down = [element.score - 2, element.score - 1];
+      return;
     }
 
     if (element.downvotes.indexOf(req.currentUser.toString()) !== -1) {
-      return element.value = -1;
+      element.state = 'downvoted';
+      element.up = [element.score + 2, element.score + 1];
+      element.down = [element.score, element.score + 1];
+      return;
     }
-
-    return element.value = 0;
   })
-
   return results;
 }
 

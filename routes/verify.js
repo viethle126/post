@@ -12,14 +12,14 @@ function verify(req, res, next) {
       }
 
       if (results === null) {
-        res.status(401).json({ info: 'You must be logged in to do that' });
-        return;
+        next();
       }
+
       req.currentUser = results._id;
       next();
     })
   } else {
-    res.status(401).json({ info: 'You must be logged in to do that' });
+    next();
   }
 }
 

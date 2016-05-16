@@ -9,6 +9,7 @@ var posts = require('./routes/posts');
 var comments = require('./routes/comments');
 var vote = require('./routes/vote');
 var verify = require('./routes/verify');
+var forbid = require('./routes/forbid');
 // mongoose
 var mongoose = require('mongoose');
 var options = {
@@ -33,9 +34,9 @@ mongoose.connection.on('connected', function() {
 
 app.use(jsonParser, cookieParser);
 app.use('/user', user);
-app.use('/posts', posts);
-app.use('/comments', comments);
-app.use('/vote', verify, vote);
+app.use('/posts', verify, posts);
+app.use('/comments', verify, comments);
+app.use('/vote', verify, forbid, vote);
 app.use(express.static('public'));
 
 if (!require.main.loaded) {
