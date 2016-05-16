@@ -26,9 +26,24 @@ function comment($http, $routeParams, moment, voter) {
     var request = $http.get('/comments/' + vm.post_id);
 
     request.then(function(response) {
-      vm.list = response.data.results;
-
-      return vm.list;
+      vm.comments = [];
+      vm.replies = {};
+      response.data.results.forEach(function(element, index, array) {
+        if (element.reply_to !== 'post') {
+          if (vm.replies[element.reply_to]) {
+            vm.replies[element.reply_to].push(element);
+            return;
+          } else {
+            vm.replies[element.reply_to] = [];
+            vm.replies[element.reply_to].push(element);
+            return;
+          }
+        }
+        vm.comments.push(element);
+        return;
+      })
+      vm.comments = vm.comments.reverse();
+      return;
     })
   }
 
@@ -43,6 +58,7 @@ function comment($http, $routeParams, moment, voter) {
 
     replying.then(function() {
       vm.text = '';
+      vm.loadComments();
     }, function(error) {
       console.error(error);
       // will implement notifications later

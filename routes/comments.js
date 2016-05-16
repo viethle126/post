@@ -10,7 +10,7 @@ router.post('/', verify, function(req, res) {
     user: req.cookies.user,
     user_id: req.currentUser,
     post_id: req.body.post_id,
-    reply_to: req.body.reply,
+    reply_to: req.body.reply_to,
     date: Date(),
     comment: req.body.comment
   })
