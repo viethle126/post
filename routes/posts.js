@@ -46,6 +46,17 @@ router.get('/saved', verify, function(req, res) {
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
+// read specific, for comments
+router.get('/one/:post_id', function(req, res) {
+  Post.find({ _id: req.params.post_id }).lean().exec(function(error, results) {
+    if (error) {
+      res.json({ info: 'Error during find post', error: error });
+      return;
+    }
+
+    res.status(200).json({ info: 'Post retrieved successfully', results: addTracker(req, results) });
+  })
+})
 // update
 router.put('/', verify, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {

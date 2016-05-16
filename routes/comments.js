@@ -29,6 +29,7 @@ router.get('/:post_id', function(req, res) {
   Comment.find({ post_id: req.params.post_id }).lean().exec(function(error, results) {
     if (error) {
       res.json({ info: 'Error during find comments', error: error });
+      return;
     }
 
     res.status(200).json({ info: 'Comments retrieved successfully', results: addTracker(req, results) });
