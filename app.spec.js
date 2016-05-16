@@ -444,6 +444,12 @@ describe('Create post, comment and replies; Upvote/downvote', function() {
 describe('Logout and cleanup', function() {
   this.timeout(0);
   this.slow(1400);
+
+  var testUser = {
+    user: 'postUserTest',
+    password: 'post'
+  }
+  
   // logout
   describe('Get request to /user/logout', function() {
     it('is logging out', function(done) {
