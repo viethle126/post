@@ -59,30 +59,10 @@ function post($http, $location, $scope, moment, voter) {
   }
 
   vm.up = function(item) {
-    if (item.value !== 1) {
-      voter.retract(item, 'upvotes');
-      item.change+= 1 - item.value;
-      return item.value = 1;
-    }
-
-    if (item.value === 1) {
-      voter.retract(item);
-      item.change--;
-      return item.value = 0;
-    }
+    voter.up(item);
   }
 
   vm.down = function(item) {
-    if (item.value !== -1) {
-      voter.retract(item, 'downvotes');
-      item.change-= 1 + item.value;
-      return item.value = -1;
-    }
-
-    if (item.value === -1) {
-      voter.retract(item);
-      item.change++;
-      return item.value = 0;
-    }
+    voter.down(item);
   }
 }

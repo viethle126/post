@@ -39,8 +39,36 @@ function voter($http) {
     })
   }
 
+  function up(item) {
+    if (item.value !== 1) {
+      retract(item, 'upvotes');
+      item.change+= 1 - item.value;
+      return item.value = 1;
+    }
+
+    if (item.value === 1) {
+      retract(item);
+      item.change--;
+      return item.value = 0;
+    }
+  }
+
+  function down(item) {
+    if (item.value !== -1) {
+      retract(item, 'downvotes');
+      item.change-= 1 + item.value;
+      return item.value = -1;
+    }
+
+    if (item.value === -1) {
+      retract(item);
+      item.change++;
+      return item.value = 0;
+    }
+  }
+
   return {
-    retract: retract,
-    vote: vote
+    up: up,
+    down: down
   }
 }
