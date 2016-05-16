@@ -10,8 +10,7 @@ var port = server.address().port;
 var mongoose = require('mongoose');
 var User = require('./models/user');
 
-// user
-describe('Test /user', function() {
+describe('Create user and log in', function() {
   this.timeout(0);
   this.slow(1400);
 
@@ -60,8 +59,8 @@ describe('Test /user', function() {
       })
     })
   })
-  // read, correct credentials
-  describe('Post request to /user/login right credentials', function() {
+  // log in, correct credentials
+  describe('Post request to /user/login with right credentials', function() {
     it('is logging in', function(done) {
       request({
         url: 'http://localhost:' + port + '/user/login',
@@ -75,7 +74,7 @@ describe('Test /user', function() {
       })
     })
   })
-  // read, incorrect credentials
+  // log in, incorrect credentials
   describe('Post request to /user/login with wrong password', function() {
     it('is failing to log in', function(done) {
       request({
@@ -90,7 +89,7 @@ describe('Test /user', function() {
       })
     })
   })
-  // read, unknown user
+  // log in, unknown user
   describe('Post request to /user/login with unknown user', function() {
     it('is failing to log in', function(done) {
       request({
@@ -107,8 +106,7 @@ describe('Test /user', function() {
   })
 })
 
-// post, comment and vote
-describe('Test /posts and /vote', function() {
+describe('Create post, comment and replies; Upvote/downvote', function() {
   this.timeout(0);
   this.slow(1400);
 
@@ -181,7 +179,7 @@ describe('Test /posts and /vote', function() {
     })
   })
   // read single post
-  describe('Get request to /posts/one/:post_id', function() {
+  describe('Get request to /posts/one', function() {
     it('is retrieving targeted post', function(done) {
       request('http://localhost:' + port + '/posts/one/' + editPost.post_id,
       function(error, response, body) {
@@ -208,8 +206,8 @@ describe('Test /posts and /vote', function() {
       })
     })
   })
-  // add upvote
-  describe('Put request to /vote, upvote', function() {
+  // upvote a post
+  describe('Put request to /vote/post, upvote', function() {
     it('is upvoting a post', function(done) {
       editPost.type = 'upvotes';
       request({
@@ -224,8 +222,8 @@ describe('Test /posts and /vote', function() {
       })
     })
   })
-  // add downvote
-  describe('Put request to /vote, downvote', function() {
+  // downvote a post
+  describe('Put request to /vote/post, downvote', function() {
     it('is downvoting a post', function(done) {
       editPost.type = 'downvotes';
       request({
@@ -240,8 +238,8 @@ describe('Test /posts and /vote', function() {
       })
     })
   })
-  // clear votes
-  describe('Delete request to /vote', function() {
+  // clear votes on a post
+  describe('Delete request to /vote/post', function() {
     it('is clearing votes from a post', function(done) {
       request({
         url: 'http://localhost:' + port + '/vote/post',
@@ -256,7 +254,7 @@ describe('Test /posts and /vote', function() {
     })
   })
   // create comment
-  describe('Post request to /comments (reply to a post)', function() {
+  describe('Post request to /comments, reply to a post', function() {
     it('is creating a new comment', function(done) {
       request({
         url: 'http://localhost:' + port + '/comments',
@@ -303,8 +301,55 @@ describe('Test /posts and /vote', function() {
       })
     })
   })
+  // upvote a comment
+  describe('Put request to /vote/comment, upvote', function() {
+    it('is upvoting a comment', function(done) {
+      editComment.type = 'upvotes';
+      request({
+        url: 'http://localhost:' + port + '/vote/comment',
+        method: 'PUT',
+        json: editComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote added successfully');
+        done();
+      })
+    })
+  })
+  // downvote a comment
+  describe('Put request to /vote/comment, downvote', function() {
+    it('is downvoting a comment', function(done) {
+      editComment.type = 'downvotes';
+      request({
+        url: 'http://localhost:' + port + '/vote/comment',
+        method: 'PUT',
+        json: editComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote added successfully');
+        done();
+      })
+    })
+  })
+  // clear votes on a comment
+  describe('Delete request to /vote/comment', function() {
+    it('is clearing votes from a comment', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/vote/comment',
+        method: 'DELETE',
+        json: editComment
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Vote cleared successfully');
+        done();
+      })
+    })
+  })
   // create reply
-  describe('Post request to /comments (reply to a comment)', function() {
+  describe('Post request to /comments, reply to a comment', function() {
     it('is creating a new reply', function(done) {
       request({
         url: 'http://localhost:' + port + '/comments',
@@ -336,7 +381,7 @@ describe('Test /posts and /vote', function() {
   })
   // update reply
   describe('Put request to /comments', function() {
-    it('is updating a comment', function(done) {
+    it('is updating a reply', function(done) {
       request({
         url: 'http://localhost:' + port + '/comments',
         method: 'PUT',
@@ -390,6 +435,26 @@ describe('Test /posts and /vote', function() {
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post deleted successfully');
+        done();
+      })
+    })
+  })
+})
+
+describe('Logout and cleanup', function() {
+  this.timeout(0);
+  this.slow(1400);
+  // logout
+  describe('Get request to /user/logout', function() {
+    it('is logging out', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/user/logout',
+        method: 'GET'
+      }, function(error, response, body) {
+        var parsed = JSON.parse(body);
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'User logged out successfully');
         done();
       })
     })

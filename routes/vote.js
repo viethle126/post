@@ -32,7 +32,7 @@ router.put('/post', function(req, res) {
 })
 // add vote to comment
 router.put('/comment', function(req, res) {
-  Comment.findOne({ _id: req.body.post_id }, function(error, comment) {
+  Comment.findOne({ _id: req.body.comment_id }, function(error, comment) {
     if (error) {
       res.json({ info: 'Error during find comment' });
       return;
@@ -89,7 +89,7 @@ router.delete('/post', function(req, res) {
 })
 // clear votes, comment
 router.delete('/comment', function(req, res) {
-  Comment.findOne({ _id: req.body.post_id }, function(error, comment) {
+  Comment.findOne({ _id: req.body.comment_id }, function(error, comment) {
     if (error) {
       res.json({ info: 'Error during find comment' });
       return;

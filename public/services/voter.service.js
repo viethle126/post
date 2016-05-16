@@ -29,6 +29,7 @@ function voter($http) {
   function vote(path, item, type) {
     var data = {
       post_id: item._id,
+      comment_id: item._id,
       type: type
     }
 
