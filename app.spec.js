@@ -180,6 +180,19 @@ describe('Test /posts and /vote', function() {
       })
     })
   })
+  // read single post
+  describe('Get request to /posts/one/:post_id', function() {
+    it('is retrieving targeted post', function(done) {
+      request('http://localhost:' + port + '/posts/one/' + editPost.post_id,
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Post retrieved successfully');
+        done();
+      })
+    })
+  })
   // update post
   describe('Put request to /posts', function() {
     it('is updating a post', function(done) {
