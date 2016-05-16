@@ -59,10 +59,10 @@ function post($http, $location, $scope, moment, voter) {
   }
 
   vm.up = function(item) {
-    voter.up(item);
+    voter.up('post', item);
   }
 
   vm.down = function(item) {
-    voter.down(item);
+    voter.down('post', item);
   }
 }

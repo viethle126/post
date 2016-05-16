@@ -6,19 +6,19 @@ dashboard.$inject = ['$http'];
 
 function voter($http) {
 
-  function retract(item, type) {
+  function retract(path, item, type) {
     var data = {
       post_id: item._id
     }
 
     $http({
-      url: '/vote/post',
+      url: '/vote/' + path,
       method: 'DELETE',
       headers: { 'Content-type': 'application/json' },
       data: data
     }).then(function() {
       if (type) {
-        vote(item, type);
+        vote(path, item, type);
       }
     }, function(error) {
       console.error(error);
@@ -26,41 +26,41 @@ function voter($http) {
     })
   }
 
-  function vote(item, type) {
+  function vote(path, item, type) {
     var data = {
       post_id: item._id,
       type: type
     }
 
-    var voting = $http.put('/vote/post', data);
+    var voting = $http.put('/vote/' + path, data);
     voting.then({}, function(error) {
       console.error(error);
       // will implement notifications later
     })
   }
 
-  function up(item) {
+  function up(path, item) {
     if (item.state === 'upvoted') {
-      retract(item);
+      retract(path, item);
       item.state = 'neutral'
       item.score = item.up[1];
       return item;
     } else {
-      retract(item, 'upvotes');
+      retract(path, item, 'upvotes');
       item.state = 'upvoted';
       item.score = item.up[0];
       return item;
     }
   }
 
-  function down(item) {
+  function down(path, item) {
     if (item.state === 'downvoted') {
-      retract(item);
+      retract(path, item);
       item.state = 'neutral'
       item.score = item.down[1];
       return item;
     } else {
-      retract(item, 'downvotes');
+      retract(path, item, 'downvotes');
       item.state = 'downvoted';
       item.score = item.down[0];
       return item;

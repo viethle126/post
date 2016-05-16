@@ -66,11 +66,11 @@ function comment($http, $routeParams, moment, voter) {
   }
 
   vm.up = function(item) {
-    voter.up(item);
+    voter.up('comment', item);
   }
 
   vm.down = function(item) {
-    voter.down(item);
+    voter.down('comment', item);
   }
 
   activate();

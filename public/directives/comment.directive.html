@@ -3,11 +3,11 @@
     <div class="ui image">
       <div class="ui statistic">
         <a class="label" ng-click="comment.up(comment.post)">
-          <i class="fitted chevron up icon" ng-class="{ blue: comment.post.value === 1 }"></i>
+          <i class="fitted chevron up icon" ng-class="{ blue: comment.post.score === comment.post.up[0] }"></i>
         </a>
-        <div class="value">{{comment.post.upvotes.length - comment.post.downvotes.length + comment.post.change}}</div>
+        <div class="value">{{comment.post.score}}</div>
         <a class="label" ng-click="comment.down(comment.post)">
-          <i class="fitted chevron down icon" ng-class="{ blue: comment.post.value === -1 }"></i>
+          <i class="fitted chevron down icon" ng-class="{ blue: comment.post.score === comment.post.down[0] }"></i>
         </a>
       </div>
     </div>
@@ -48,17 +48,19 @@
             <div class="metadata">
               <span class="itemspan">posted</span>
               <span class="itemspan" am-time-ago="item.date"></span>
+              <span ng-show="item.score === 1">{{item.score}} Point</span>
+              <span ng-show="item.score !== 1">{{item.score}} Points</span>
             </div>
             <div class="text">
               <p>{{item.comment}}</p>
             </div>
             <div class="actions">
               <a class="reply">Reply</a>
-              <a>
-                <i class="chevron up icon"></i>{{item.upvotes.length}}
+              <a ng-click="comment.up(item)">
+                <i class="chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
               </a>
-              <a>
-                <i class="chevron down icon"></i>{{item.downvotes.length}}
+              <a ng-click="comment.down(item)">
+                <i class="chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
               </a>
             </div>
           </div>
