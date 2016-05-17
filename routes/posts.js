@@ -58,6 +58,8 @@ router.get('/one/:post_id', function(req, res) {
       return;
     }
 
+    isSaved(req, results);
+
     res.status(200).json({ info: 'Post retrieved successfully', results: addTracker(req, results) });
   })
 })
@@ -156,3 +158,4 @@ function isSaved(req, results) {
 
 module.exports = router;
 module.exports.addTracker = addTracker;
+module.exports.isSaved = isSaved;
