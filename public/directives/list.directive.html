@@ -1,0 +1,27 @@
+<div class="ui segment items" ng-repeat="item in post.list">
+  <div class="item">
+    <div class="ui image">
+      <div class="ui statistic">
+        <a class="label" ng-click="post.up(item)">
+          <i class="fitted chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
+        </a>
+        <div class="value">{{item.score}}</div>
+        <a class="label" ng-click="post.down(item)">
+          <i class="fitted chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
+        </a>
+      </div>
+    </div>
+    <div class="content">
+      <div class="header"><a href="#/comments/{{item._id}}">{{item.title}}</a></div>
+      <div class="meta">
+        <span class="itemspan">posted</span>
+        <span class="itemspan" am-time-ago="item.date"></span>
+        <span>by {{item.user}}</span>
+        <a ng-show="item.comments === 1">{{item.comments}} comment</a>
+        <a ng-show="item.comments !== 1">{{item.comments}} comments</a>
+        <a ng-show="item.isSaved === false" ng-click="post.save(item)">save</a>
+        <a ng-show="item.isSaved === true" ng-click="post.unsave(item)">unsave</a>
+      </div>
+    </div>
+  </div>
+</div>

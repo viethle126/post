@@ -1,0 +1,18 @@
+<div class="ui segment">
+  <h3 class="ui header">Submit post</h3>
+  <form class="ui form" ng-submit="submit.submit(submit.title, submit.url, submit.text)">
+    <div class="field">
+      <label>Title</label>
+      <input type="text" ng-model="submit.title" required>
+    </div>
+    <div class="field">
+      <label>URL (optional)</label>
+      <input type="text" ng-model="submit.url">
+    </div>
+    <div class="field">
+      <label>Text (optional)</label>
+      <textarea rows="3" ng-model="submit.text"></textarea>
+    </div>
+    <button class="ui basic black button">Submit</button>
+  </form>
+</div>

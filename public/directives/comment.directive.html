@@ -1,0 +1,71 @@
+<div class="ui segment items">
+  <div class="item">
+    <div class="ui image">
+      <div class="ui statistic">
+        <a class="label" ng-click="comment.up(comment.post)">
+          <i class="fitted chevron up icon" ng-class="{ blue: comment.post.score === comment.post.up[0] }"></i>
+        </a>
+        <div class="value">{{comment.post.score}}</div>
+        <a class="label" ng-click="comment.down(comment.post)">
+          <i class="fitted chevron down icon" ng-class="{ blue: comment.post.score === comment.post.down[0] }"></i>
+        </a>
+      </div>
+    </div>
+    <div class="content">
+      <div class="header">{{comment.post.title}}</div>
+      <div class="meta">
+        <span class="itemspan">posted</span>
+        <span class="itemspan" am-time-ago="comment.post.date"></span>
+        <span>by {{comment.post.user}}</span>
+        <a>save</a>
+      </div>
+      <div class="description">
+        <p>{{comment.post.content}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui segment items">
+  <div>
+    <div class="item">
+      <h3>
+        <span ng-show="item.comments === 1">{{comment.count}} Comment</span>
+        <span ng-show="item.comments !== 1">{{comment.count}} Comments</span>
+      </h3>
+      <div class="ui comments">
+        <form class="ui reply form">
+          <div class="field">
+            <textarea ng-model="comment.text"></textarea>
+          </div>
+          <div class="ui basic black submit button" ng-click="comment.reply(comment.text)">
+            Add Reply
+          </div>
+        </form>
+        <!-- start comment section -->
+        <div class="comment" ng-repeat="item in comment.comments">
+          <div class="content">
+            <a class="author">{{item.user}}</a>
+            <div class="metadata">
+              <span class="itemspan">posted</span>
+              <span class="itemspan" am-time-ago="item.date"></span>
+              <span ng-show="item.score === 1">{{item.score}} Point</span>
+              <span ng-show="item.score !== 1">{{item.score}} Points</span>
+            </div>
+            <div class="text">
+              <p>{{item.comment}}</p>
+            </div>
+            <div class="actions">
+              <a class="reply">Reply</a>
+              <a ng-click="comment.up(item)">
+                <i class="chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
+              </a>
+              <a ng-click="comment.down(item)">
+                <i class="chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
+              </a>
+            </div>
+          </div>
+          <!-- end comment section -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,24 @@
+<div class="nav" ng-controller="navController as nav">
+  <div class="ui grid wrapper">
+    <div class="four wide nav-padding column"></div>
+    <div class="twelve wide nav-padding column">
+      <div class="ui attached secondary menu">
+        <a href="#/submit" class="item blue" ng-class="{ active: nav.isActive === '/submit' }">
+          <i class="rocket icon"></i>Submit
+        </a>
+        <a href="#/home" class="item blue" ng-class="{ active: nav.isActive === '/home' }">
+          <i class="home icon"></i>Home
+        </a>
+        <a href="#/saved" class="item blue" ng-class="{ active: nav.isActive === '/saved' }">
+          <i class="tags icon"></i>Saved
+        </a>
+        <div class="ui category search wider right item">
+          <div class="ui transparent icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search link icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

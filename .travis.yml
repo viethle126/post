@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "0.12"
+install:
+  - npm install
+before_script:
+  - npm install -g gulp
+  - npm install -g mocha
+script: gulp mocha
+env:
+  global:
+  - secure: YMmsBzSLfYYVGjRirtjE1jTHIfvv2cHq3NR7G0JhWuqhsWcrGyyfgm91nSz5tOiD86RrcY6LQ/2Gjhf8Ad5q8fbUQ97FVXY+OV8e+BqdvFjq3iOZ/oqTTdzA6j0m/IbwyaqvTAFni8I0IsumuJxAbPGbtaC2XrNz1xsTJ2gzdFRQn9KS7paXg0FfQGio6ce86ZCxsFlFewqCk6NY21p26Y9v8gjkBiMjyoI+rZLRa8g4hbdMf+qnQFaeIiGBaDSg0Hqlp+kkzDKTRQUQdFvj+oqS97oDn78+ORHkZyF1KFuv45EMa8fkuZtNA8GhU9jXmXTWiod7/OKWXzfHPEE9m55jxSJj+HvD3F39sxS1KkGDaV9+mMbFzYCswDC2FZZ/NTa8C0GLqFWgeS1dfGNgEmVUW9SwzXJW4cAqLf2JNM4RIcMgz34jfpZWkD1aAEyCnXUO/1YijNJtcMOHZeCm0uZVGFA+BY3U6iajxU2poFLea7jMskZzddy/Q+PasIy/XTZjmIlKEYU8eqzTsrV0BfAshJ8EhvJ9sZ5pKbLaqZPmduVCwPGyr1YBxArZHHQ9zXWlnLzyMoKU1IvX/RzDiOh+nSY2NwHHgfysTO1gDabSDPh5CKz0Dg0IeAUxVE9c4hfEEORUF+e/5lLqU/sRmySQ9zu1wi4gPrToHjC5EhA=

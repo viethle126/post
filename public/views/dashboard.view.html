@@ -1,0 +1,21 @@
+<div class="content">
+  <div class="header">{{ user.user }}
+    <span class="right floated meta">+{{ user.score }}</span>
+  </div>
+  <div class="meta">Dashboard</div>
+  <div class="description">
+    <span ng-show="user.posts === 1"><i class="browser icon icon"></i>{{ user.posts }} Post<br></span>
+    <span ng-show="user.posts !== 1"><i class="browser icon icon"></i>{{ user.posts }} Posts<br></span>
+    <span ng-show="user.upvotes === 1"><i class="chevron up icon"></i>{{ user.upvotes }} Upvote<br></span>
+    <span ng-show="user.upvotes !== 1"><i class="chevron up icon"></i>{{ user.upvotes }} Upvotes<br></span>
+    <span ng-show="user.downvotes === 1"><i class="chevron down icon"></i>{{ user.downvotes }} Downvote<br></span>
+    <span ng-show="user.downvotes !== 1"><i class="chevron down icon"></i>{{ user.downvotes }} Downvotes<br></span>
+    <span ng-show="user.saves === 1"><i class="tag icon"></i>{{ user.saves }} Save<br></span>
+    <span ng-show="user.saves !== 1"><i class="tag icon"></i>{{ user.saves }} Saves<br></span>
+  </div>
+</div>
+<div class="extra content">
+  <a ng-click="user.logout()">
+    <i class="leaf icon"></i>Log out
+  </a>
+</div>

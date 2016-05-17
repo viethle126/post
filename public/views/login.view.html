@@ -1,0 +1,22 @@
+<div class="content">
+  <div class="description">
+    <form class="ui form" ng-submit="user.login(user.user, user.pass)">
+      <div class="field">
+        <label>User</label>
+        <input type="text" placeholder="viet" ng-model="user.user" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="post" ng-model="user.pass" required>
+      </div>
+      <button class="ui basic button" type="submit">Log in</button>
+      <div class="ui basic button" ng-click="user.signup(user.user, user.pass)">Sign up</div>
+    </form>
+  </div>
+</div>
+<div class="extra content" ng-show="user.error === 401">
+  <h4 class="ui red header">Invalid user/password</h4>
+</div>
+<div class="extra content" ng-show="user.error === 409">
+  <h4 class="ui red header">Name already in use</h4>
+</div>
