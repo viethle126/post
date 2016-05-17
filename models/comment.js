@@ -8,7 +8,6 @@ var commentSchema = new Schema({
   reply_to: String,
   date: Date,
   comment: String,
-  replies: { type: Number, default: 0 },
   upvotes: { type: Array, default: [] },
   downvotes: { type: Array, default: [] }
 });

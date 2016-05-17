@@ -31,6 +31,8 @@ router.get('/', function(req, res) {
       return;
     }
 
+    isSaved(req, results);
+
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
@@ -42,6 +44,8 @@ router.get('/saved', forbid, function(req, res) {
       res.json({ info: 'Error during find posts', error: error });
       return;
     }
+
+    isSaved(req, results);
 
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
@@ -134,6 +138,19 @@ function addTracker(req, results) {
       return;
     }
   })
+  return results;
+}
+
+function isSaved(req, results) {
+  results.forEach(function(element, index, array) {
+    if (element.saves.indexOf(req.currentUser.toString()) !== -1) {
+      element.isSaved = true;
+      return;
+    }
+    element.isSaved = false;
+    return;
+  })
+
   return results;
 }
 
