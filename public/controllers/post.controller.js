@@ -2,9 +2,9 @@ var app = angular.module('post');
 
 app.controller('postController', post);
 
-app.$inject = ['$http', '$location', '$scope', 'moment', 'voter'];
+app.$inject = ['$http', '$location', '$scope', 'moment', 'voter', 'saver'];
 
-function post($http, $location, $scope, moment, voter) {
+function post($http, $location, $scope, moment, voter, saver) {
   var vm = this;
   vm.list = [];
 
@@ -64,5 +64,13 @@ function post($http, $location, $scope, moment, voter) {
 
   vm.down = function(item) {
     voter.down('post', item);
+  }
+
+  vm.save = function(item) {
+    saver.save(item);
+  }
+
+  vm.unsave = function(item) {
+    saver.unsave(item);
   }
 }

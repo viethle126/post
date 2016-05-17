@@ -28,6 +28,7 @@ function comment($http, $routeParams, moment, voter) {
     request.then(function(response) {
       vm.comments = [];
       vm.replies = {};
+      vm.count = response.data.results.length;
       response.data.results.forEach(function(element, index, array) {
         if (element.reply_to !== 'post') {
           if (vm.replies[element.reply_to]) {
