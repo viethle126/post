@@ -8,6 +8,7 @@ var user = require('./routes/user');
 var posts = require('./routes/posts');
 var comments = require('./routes/comments');
 var vote = require('./routes/vote');
+var save = require('./routes/save');
 var verify = require('./routes/verify');
 var forbid = require('./routes/forbid');
 // mongoose
@@ -37,6 +38,7 @@ app.use('/user', user);
 app.use('/posts', verify, posts);
 app.use('/comments', verify, comments);
 app.use('/vote', verify, forbid, vote);
+app.use('/save', verify, forbid, save);
 app.use(express.static('public'));
 
 if (!require.main.loaded) {

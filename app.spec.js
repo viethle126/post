@@ -206,6 +206,36 @@ describe('Create post, comment and replies; Upvote/downvote', function() {
       })
     })
   })
+  // add post to saved
+  describe('Put request to /save', function() {
+    it('is adding a post to saved', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/save',
+        method: 'PUT',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Post added to saved');
+        done();
+      })
+    })
+  })
+  // remove post from saved
+  describe('Delete request to /save', function() {
+    it('is removing a post from saved', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/save',
+        method: 'DELETE',
+        json: editPost
+      }, function(error, response, body) {
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(body.info, 'Post removed from saved');
+        done();
+      })
+    })
+  })
   // upvote a post
   describe('Put request to /vote/post, upvote', function() {
     it('is upvoting a post', function(done) {
@@ -449,7 +479,7 @@ describe('Logout and cleanup', function() {
     user: 'postUserTest',
     password: 'post'
   }
-  
+
   // logout
   describe('Get request to /user/logout', function() {
     it('is logging out', function(done) {

@@ -2,6 +2,7 @@ var router = require('express').Router();
 var forbid = require('./forbid');
 var addTracker = require('./posts').addTracker;
 // mongoose
+var Post = require('../models/post')
 var Comment = require('../models/comment');
 
 // create
@@ -22,6 +23,20 @@ router.post('/', forbid, function(req, res) {
     }
 
     res.status(200).json({ info: 'Comment submitted successfully' });
+  })
+
+  Post.findOne({ _id: req.body.post_id }, function(error, post) {
+    if (error) {
+      throw new Error(error);
+    }
+
+    post.comments++;
+
+    post.save(function(error) {
+      if (error) {
+        throw new Error(error);
+      }
+    })
   })
 })
 // read
@@ -82,6 +97,20 @@ router.delete('/', forbid, function(req, res) {
     })
 
     res.status(200).json({ info: 'Comment deleted successfully' });
+  })
+
+  Post.findOne({ _id: req.body.post_id }, function(error, post) {
+    if (error) {
+      throw new Error(error);
+    }
+
+    post.comments--;
+
+    post.save(function(error) {
+      if (error) {
+        throw new Error(error);
+      }
+    })
   })
 })
 
