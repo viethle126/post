@@ -17,7 +17,8 @@
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="comment.post.date"></span>
         <span>by {{comment.post.user}}</span>
-        <a>save</a>
+        <a ng-show="comment.post.isSaved === false" ng-click="post.save(comment.post)">save</a>
+        <a ng-show="comment.post.isSaved === true" ng-click="post.unsave(comment.post)">unsave</a>
       </div>
       <div class="description">
         <p>{{comment.post.content}}</p>

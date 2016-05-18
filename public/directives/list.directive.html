@@ -17,8 +17,8 @@
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="item.date"></span>
         <span>by {{item.user}}</span>
-        <a ng-show="item.comments === 1">{{item.comments}} comment</a>
-        <a ng-show="item.comments !== 1">{{item.comments}} comments</a>
+        <a href="#/comments/{{item._id}}" ng-show="item.comments === 1">{{item.comments}} comment</a>
+        <a href="#/comments/{{item._id}}" ng-show="item.comments !== 1">{{item.comments}} comments</a>
         <a ng-show="item.isSaved === false" ng-click="post.save(item)">save</a>
         <a ng-show="item.isSaved === true" ng-click="post.unsave(item)">unsave</a>
       </div>

@@ -13,6 +13,12 @@ app.config(['$routeProvider', function($routeProvider) {
   .when('/saved', {
     templateUrl: 'views/posts.view.html',
   })
+  .when('/search/:search_query', {
+    // declare controller to pass routeParams
+    templateUrl: 'views/posts.view.html',
+    controller: 'postController',
+    controllerAs: 'post',
+  })
   .when('/comments/:post_id', {
     templateUrl: 'views/comments.view.html',
     controller: 'commentController',
