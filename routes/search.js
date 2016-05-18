@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
       addTracker(req, payload);
     }
 
-    res.status(200).json({ info: 'Posts retrieved successfully', results: payload });
+    res.status(200).json({ info: 'Search results retrieved successfully', results: payload });
   })
 })
 

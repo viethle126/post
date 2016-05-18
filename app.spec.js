@@ -106,7 +106,7 @@ describe('Create user and log in', function() {
   })
 })
 
-describe('Create post, comment and replies; Upvote/downvote', function() {
+describe('Create post, comment and replies; Upvote/downvote; Search', function() {
   this.timeout(0);
   this.slow(1400);
 
@@ -179,7 +179,7 @@ describe('Create post, comment and replies; Upvote/downvote', function() {
     })
   })
   // read single post
-  describe('Get request to /posts/one', function() {
+  describe('Get request to /posts/one/:post_id', function() {
     it('is retrieving targeted post', function(done) {
       request('http://localhost:' + port + '/posts/one/' + editPost.post_id,
       function(error, response, body) {
@@ -202,6 +202,19 @@ describe('Create post, comment and replies; Upvote/downvote', function() {
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post updated successfully');
+        done();
+      })
+    })
+  })
+  // search for post
+  describe('Get request to /search/:search_query', function() {
+    it('is retrieving search results', function(done) {
+      request('http://localhost:' + port + '/search/?query=This+is+an+edited+title',
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Search results retrieved successfully');
         done();
       })
     })
