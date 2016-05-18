@@ -11,4 +11,8 @@ function nav($http, $location, $scope) {
   $scope.$on('$locationChangeSuccess', function() {
     vm.isActive = $location.path();
   })
+
+  vm.search = function(query) {
+    return $location.path('/search/' + query);
+  }
 }

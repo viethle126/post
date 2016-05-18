@@ -13,10 +13,10 @@
           <i class="tags icon"></i>Saved
         </a>
         <div class="ui category search wider right item">
-          <div class="ui transparent icon input">
-            <input type="text" placeholder="Search...">
+          <form class="ui transparent icon input" ng-submit="nav.search(nav.search_query)">
+            <input type="text" placeholder="Search..." ng-model="nav.search_query">
             <i class="search link icon"></i>
-          </div>
+          </form>
         </div>
       </div>
     </div>

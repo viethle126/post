@@ -2,19 +2,23 @@ var app = angular.module('post');
 
 app.controller('postController', post);
 
-app.$inject = ['$http', '$location', '$scope', 'moment', 'voter', 'saver'];
+app.$inject = ['$http', '$routeParams', '$location', '$scope', 'moment', 'voter', 'saver'];
 
-function post($http, $location, $scope, moment, voter, saver) {
+function post($http, $routeParams, $location, $scope, moment, voter, saver) {
   var vm = this;
   vm.list = [];
 
   $scope.$on('$locationChangeSuccess', function() {
     if ($location.path() === '/home') {
-      vm.home();
+      vm.refresh('/posts');
       return;
     }
     if ($location.path() === '/saved') {
-      vm.saved();
+      vm.refresh('/posts/saved');
+      return;
+    }
+    if ($location.path() === '/search/:search_query') {
+      vm.refresh('/search/?query=' + $routeParams.search_query);
       return;
     }
   })
@@ -36,8 +40,8 @@ function post($http, $location, $scope, moment, voter, saver) {
     })
   }
 
-  vm.home = function() {
-    var request = $http.get('/posts');
+  vm.refresh = function(path) {
+    var request = $http.get(path);
 
     request.then(function(response) {
       var posts = response.data.results;
@@ -47,15 +51,8 @@ function post($http, $location, $scope, moment, voter, saver) {
     })
   }
 
-  vm.saved = function() {
-    var request = $http.get('/posts/saved');
-
-    request.then(function(response) {
-      var posts = response.data.results;
-      vm.list = posts !== undefined ? posts.reverse() : [];
-
-      return vm.list;
-    })
+  if ($routeParams.search_query) {
+    vm.refresh('/search/?query=' + $routeParams.search_query);
   }
 
   vm.up = function(item) {
