@@ -16,7 +16,7 @@ function dashboard($http) {
         vm.upvotes = results.data.upvotes;
         vm.downvotes = results.data.downvotes;
         vm.saves = results.data.saves;
-        vm.score = results.data.score;
+        vm.score = results.data.upvotes - results.data.downvotes;
         vm.card = '../views/dashboard.view.html';
         return vm;
       }
