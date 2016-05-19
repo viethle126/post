@@ -82,7 +82,6 @@ router.delete('/', function(req, res) {
           res.status(200).json({ info: 'Post removed from saved' });
         })
       })
-
     })
   })
 })
