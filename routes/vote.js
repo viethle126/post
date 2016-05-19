@@ -79,7 +79,7 @@ router.put('/comment', function(req, res) {
               res.json({ info: 'Error during update user upvote count', error: error });
             }
 
-            res.status(200).json({ info: 'Comment added successfully' });
+            res.status(200).json({ info: 'Vote added successfully' });
           })
         })
       })
