@@ -1,5 +1,6 @@
 var router = require('express').Router();
 // mongoose
+var User = require('../models/user');
 var Post = require('../models/post');
 
 // add to saved
@@ -22,7 +23,22 @@ router.put('/', function(req, res) {
           res.json({ info: 'Error during update post', error: error });
           return;
         }
-        res.status(200).json({ info: 'Post added to saved' });
+
+        User.findOne({ _id: post.user_id }, function(error, user) {
+          if (error) {
+            res.json({ info: 'Error during find user', error: error });
+          }
+
+          user.saves++;
+
+          user.save(function(error) {
+            if (error) {
+              res.json({ info: 'Error during update user save count', error: error });
+            }
+
+            res.status(200).json({ info: 'Post added to saved' });
+          })
+        })
       })
     } else {
       res.status(200).json({ info: 'Post is already in saved' });
@@ -50,7 +66,23 @@ router.delete('/', function(req, res) {
         res.json({ info: 'Error during update post', error: error });
         return;
       }
-      res.status(200).json({ info: 'Post removed from saved' });
+
+      User.findOne({ _id: post.user_id }, function(error, user) {
+        if (error) {
+          res.json({ info: 'Error during find user', error: error });
+        }
+
+        user.saves--;
+
+        user.save(function(error) {
+          if (error) {
+            res.json({ info: 'Error during update user save count', error: error });
+          }
+
+          res.status(200).json({ info: 'Post removed from saved' });
+        })
+      })
+
     })
   })
 })

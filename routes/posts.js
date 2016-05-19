@@ -174,8 +174,12 @@ function addTracker(req, results) {
 
 function isSaved(req, results) {
   results.forEach(function(element, index, array) {
-    if (element.saves.indexOf(req.currentUser.toString()) !== -1) {
-      element.isSaved = true;
+    if (req.currentUser) {
+      if (element.saves.indexOf(req.currentUser.toString()) !== -1) {
+        element.isSaved = true;
+        return;
+      }
+      element.isSaved = false;
       return;
     }
     element.isSaved = false;
