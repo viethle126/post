@@ -8,7 +8,8 @@ function voter($http) {
 
   function retract(path, item, type) {
     var data = {
-      post_id: item._id
+      post_id: item._id,
+      comment_id: item._id,
     }
 
     $http({

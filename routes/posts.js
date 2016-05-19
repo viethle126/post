@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var forbid = require('./forbid');
 // mongoose
+var User = require('../models/user');
 var Post = require('../models/post');
 
 // create
@@ -20,7 +21,21 @@ router.post('/', forbid, function(req, res) {
       return;
     }
 
-    res.status(200).json({ info: 'Post submitted successfully' });
+    User.findOne({ _id: req.currentUser }, function(error, user) {
+      if (error) {
+        res.json({ info: 'Error during find user', error: error });
+      }
+
+      user.posts++;
+
+      user.save(function(error) {
+        if (error) {
+          res.json({ info: 'Error during update user post count', error: error });
+        }
+
+        res.status(200).json({ info: 'Post submitted successfully' });
+      })
+    })
   })
 })
 // read
@@ -111,7 +126,21 @@ router.delete('/', forbid, function(req, res) {
       }
     })
 
-    res.status(200).json({ info: 'Post deleted successfully' });
+    User.findOne({ _id: req.currentUser }, function(error, user) {
+      if (error) {
+        res.json({ info: 'Error during find user', error: error });
+      }
+
+      user.posts--;
+
+      user.save(function(error) {
+        if (error) {
+          res.json({ info: 'Error during update user post count', error: error });
+        }
+
+        res.status(200).json({ info: 'Post deleted successfully' });
+      })
+    })
   })
 })
 // used to dynamically display user's upvotes/downvotes on a post
@@ -145,8 +174,12 @@ function addTracker(req, results) {
 
 function isSaved(req, results) {
   results.forEach(function(element, index, array) {
-    if (element.saves.indexOf(req.currentUser.toString()) !== -1) {
-      element.isSaved = true;
+    if (req.currentUser) {
+      if (element.saves.indexOf(req.currentUser.toString()) !== -1) {
+        element.isSaved = true;
+        return;
+      }
+      element.isSaved = false;
       return;
     }
     element.isSaved = false;
