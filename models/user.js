@@ -8,6 +8,7 @@ var userSchema = new Schema({
   posts: { type: Number, default: 0 },
   upvotes: { type: Number, default: 0 },
   downvotes: { type: Number, default: 0 },
+  score: { type: Number, default: 0 },
   saves: { type: Number, default: 0 }
 });
 

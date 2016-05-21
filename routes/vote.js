@@ -30,7 +30,15 @@ router.put('/post', function(req, res) {
             res.json({ info: 'Error during find user', error: error });
           }
 
-          user[req.body.type]++;
+          if (req.body.type === 'upvotes') {
+            user.upvotes++;
+            user.score++;
+          }
+
+          if (req.body.type === 'downvotes') {
+            user.downvotes++;
+            user.score--;
+          }
 
           user.save(function(error) {
             if (error) {
@@ -72,7 +80,15 @@ router.put('/comment', function(req, res) {
             res.json({ info: 'Error during find user', error: error });
           }
 
-          user[req.body.type]++;
+          if (req.body.type === 'upvotes') {
+            user.upvotes++;
+            user.score++;
+          }
+
+          if (req.body.type === 'downvotes') {
+            user.downvotes++;
+            user.score--;
+          }
 
           user.save(function(error) {
             if (error) {
@@ -124,7 +140,15 @@ router.delete('/post', function(req, res) {
           res.json({ info: 'Error during find user', error: error });
         }
 
-        user[type]--;
+        if (type === 'upvotes') {
+          user.upvotes--;
+          user.score--;
+        }
+
+        if (type === 'downvotes') {
+          user.downvotes--;
+          user.score++;
+        }
 
         user.save(function(error) {
           if (error) {
@@ -175,7 +199,15 @@ router.delete('/comment', function(req, res) {
           res.json({ info: 'Error during find user', error: error });
         }
 
-        user[type]--;
+        if (type === 'upvotes') {
+          user.upvotes--;
+          user.score--;
+        }
+
+        if (type === 'downvotes') {
+          user.downvotes--;
+          user.score++;
+        }
 
         user.save(function(error) {
           if (error) {

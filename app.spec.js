@@ -10,7 +10,7 @@ var port = server.address().port;
 var mongoose = require('mongoose');
 var User = require('./models/user');
 
-describe('Create user and log in', function() {
+describe('Create user, log in, view leaderboard', function() {
   this.timeout(0);
   this.slow(1400);
 
@@ -100,6 +100,23 @@ describe('Create user and log in', function() {
         assert.equal(error, null);
         assert.equal(response.statusCode, 401);
         assert.equal(body.info, 'Invalid user/password');
+        done();
+      })
+    })
+  })
+  // get leaderboard
+  describe('Get request to /leaderboard', function() {
+    it('is retrieving list of top contributors', function(done) {
+      request({
+        url: 'http://localhost:' + port + '/leaderboard',
+        method: 'GET'
+      }, function(error, response, body) {
+        var parsed = JSON.parse(body);
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Top contributors retrieved successfully');
+        assert.notEqual(parsed.results.length, 0);
+        assert.isAtMost(parsed.results.length, 5);
         done();
       })
     })
