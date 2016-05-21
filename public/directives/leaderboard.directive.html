@@ -1,0 +1,9 @@
+<div class="ui card" ng-controller="leaderboardController as leaderboard">
+  <div class="content">
+    <div class="header">Top Contributors</div>
+    <div class="content" ng-repeat="item in leaderboard.list">{{item.user}}
+      <span class="right floated meta" ng-show="item.score >= 0">+{{item.score}}</span>
+      <span class="right floated meta" ng-show="item.score < 0">{{item.score}}</span>
+    </div>
+  </div>
+</div>
