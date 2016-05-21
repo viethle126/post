@@ -13,6 +13,7 @@
     <!-- left container  -->
     <div class="four wide column">
       <div class="ui card" ng-controller="userController as user" ng-include="user.card"></div>
+      <leaderboard></leaderboard>
     </div>
     <!-- right container -->
     <div class="twelve wide column" ng-view></div>
@@ -28,10 +29,12 @@
   <script src="./app.js"></script>
   <script src="./controllers/nav.controller.js"></script>
   <script src="./controllers/user.controller.js"></script>
+  <script src="./controllers/leaderboard.controller.js"></script>
   <script src="./controllers/post.controller.js"></script>
   <script src="./controllers/comment.controller.js"></script>
   <script src="./controllers/submit.controller.js"></script>
   <script src="./directives/navbar.directive.js"></script>
+  <script src="./directives/leaderboard.directive.js"></script>
   <script src="./directives/list.directive.js"></script>
   <script src="./directives/comment.directive.js"></script>
   <script src="./services/dashboard.service.js"></script>
