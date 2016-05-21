@@ -40,7 +40,7 @@ router.post('/', forbid, function(req, res) {
 })
 // read
 router.get('/', function(req, res) {
-  Post.find({}).lean().exec(function(error, results) {
+  Post.find({}).sort({score: -1}).lean().exec(function(error, results) {
     if (error) {
       res.json({ info: 'Error during find posts', error: error });
       return;
@@ -54,7 +54,7 @@ router.get('/', function(req, res) {
 // read saved
 router.get('/saved', forbid, function(req, res) {
   var user = req.currentUser.toString();
-  Post.find({ 'saves': user }).lean().exec(function(error, results) {
+  Post.find({ 'saves': user }).sort({score: -1}).lean().exec(function(error, results) {
     if (error) {
       res.json({ info: 'Error during find posts', error: error });
       return;

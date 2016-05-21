@@ -11,6 +11,7 @@ var postSchema = new Schema({
   comments: { type: Number, default: 0 },
   upvotes: { type: Array, default: [] },
   downvotes: { type: Array, default: [] },
+  score: { type: Number, default: 0 },
   saves: { type: Array, default: [] }
 });
 

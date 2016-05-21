@@ -45,7 +45,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
 
     request.then(function(response) {
       var posts = response.data.results;
-      vm.list = posts !== undefined ? posts.reverse() : [];
+      vm.list = posts !== undefined ? posts : [];
 
       return vm.list;
     })
