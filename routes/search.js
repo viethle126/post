@@ -18,6 +18,10 @@ router.get('/', function(req, res) {
       if (element.title.match(search) !== null) {
         payload.push(element);
       }
+
+      if (element.user.match(search) !== null) {
+        payload.push(element);
+      }
     })
 
     if (req.currentUser) {

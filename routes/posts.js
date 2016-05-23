@@ -152,6 +152,10 @@ function addTracker(req, results) {
     element.editTitle = element.title;
     element.editLink = element.link;
     element.editContent = element.content;
+    if (element.comment) {
+      element.replying = false;
+      element.editComment = element.comment;
+    }
     // for tracking votes
     element.score = element.upvotes.length - element.downvotes.length;
     element.up = [element.score + 1, element.score];

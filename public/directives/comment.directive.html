@@ -69,26 +69,37 @@
         <!-- start comment section -->
         <div class="comment" ng-repeat="item in comment.comments">
           <div class="content">
-            <a class="author">{{item.user}}</a>
+            <a href="#/search/{{item.user}}" target="_blank">{{item.user}}</a>
             <div class="metadata">
-              <span class="itemspan">posted</span>
               <span class="itemspan" am-time-ago="item.date"></span>
               <span ng-show="item.score === 1">{{item.score}} Point</span>
               <span ng-show="item.score !== 1">{{item.score}} Points</span>
             </div>
-            <div class="text">
-              <p>{{item.comment}}</p>
-            </div>
+            <div class="text whitespace" ng-show="item.editing === false">{{item.comment}}</div>
+            <div class="text whitespace" ng-show="item.editing === true">{{item.comment}}</div>
             <div class="actions">
-              <a class="reply">Reply</a>
               <a ng-click="comment.up(item)">
                 <i class="chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
               </a>
               <a ng-click="comment.down(item)">
                 <i class="chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
               </a>
+              <a>reply</a>
+              <a ng-show="item.owner === true" ng-click="item.editing = true">edit</a>
             </div>
           </div>
+          <!-- edit -->
+          <div ng-show="item.editing === true">
+            <br>
+            <form class="ui form" ng-submit="comment.edit(item)">
+              <div class="field">
+                <textarea rows="3" ng-model="item.editComment"></textarea>
+              </div>
+              <button class="ui basic blue button" ng-click="comment.edit(item)">Save</button>
+              <button class="ui basic black button" ng-click="comment.cancel(item)">Cancel</button>
+            </form>
+          </div>
+          <br>
           <!-- end comment section -->
         </div>
       </div>
