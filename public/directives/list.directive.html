@@ -12,7 +12,8 @@
       </div>
     </div>
     <div class="content">
-      <div class="header"><a href="#/comments/{{item._id}}">{{item.title}}</a></div>
+      <div class="header" ng-show="item.link === null"><a href="#/comments/{{item._id}}">{{item.title}}</a></div>
+      <div class="header" ng-show="item.link !== null"><a href="{{item.link}}" target="_blank">{{item.title}}</a></div>
       <div class="meta">
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="item.date"></span>
