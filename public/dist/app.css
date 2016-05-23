@@ -34,6 +34,10 @@ body {
   padding-bottom: 2rem !important;
 }
 
+div.ui.image {
+  width: 25px !important;
+}
+
 .ui.items {
   margin: .5em 0 !important;
 }
@@ -50,6 +54,6 @@ body {
   margin: 0 !important;
 }
 
-div.ui.image {
-  width: 25px !important;
+.whitespace {
+    white-space: pre-wrap;
 }

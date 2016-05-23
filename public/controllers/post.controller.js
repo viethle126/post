@@ -45,7 +45,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
       post_id: item._id,
       title: item.editTitle,
       link: item.editLink,
-      text: item.editContent
+      content: item.editContent
     }
 
     var update = $http.put('/posts', data);
