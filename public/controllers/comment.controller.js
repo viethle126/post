@@ -66,6 +66,30 @@ function comment($http, $routeParams, moment, voter) {
     })
   }
 
+  vm.edit = function(item) {
+    console.log(item);
+    var data = {
+      comment_id: item._id,
+      comment: item.editComment
+    }
+
+    var update = $http.put('/comments', data);
+
+    update.then(function() {
+      item.comment = item.editComment;
+      item.editing = false;
+    }, function(error) {
+      console.error(error);
+      // will implement notifications later
+    })
+  }
+
+  vm.cancel = function(item) {
+    item.editComment = item.comment;
+    item.editing = false;
+    item.replying = false;
+  }
+
   vm.up = function(item) {
     voter.up('comment', item);
   }

@@ -50,10 +50,6 @@ div.ui.image {
   font-size: 1rem !important;
 }
 
-.itemspan {
-  margin: 0 !important;
-}
-
 .whitespace {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
