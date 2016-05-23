@@ -9,7 +9,8 @@ var commentSchema = new Schema({
   date: Date,
   comment: String,
   upvotes: { type: Array, default: [] },
-  downvotes: { type: Array, default: [] }
+  downvotes: { type: Array, default: [] },
+  score: { type: Number, default: 0 }
 });
 
 var Comment = mongoose.model('Comment', commentSchema);

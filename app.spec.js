@@ -181,16 +181,30 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
       request('http://localhost:' + port + '/posts',
       function(error, response, body) {
         var parsed = JSON.parse(body);
-        var added = parsed.results[parsed.results.length - 1];
-        editPost.post_id = added._id;
-        newComment.post_id = added._id;
-        editComment.post_id = added._id;
-        newReply.post_id = added._id;
-        editReply.post_id = added._id;
         // set post_id for other tests
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Posts retrieved successfully');
+        done();
+      })
+    })
+  })
+  // search for post
+  describe('Get request to /search/:search_query', function() {
+    it('is retrieving search results', function(done) {
+      request('http://localhost:' + port + '/search/?query=This+is+a+test-generated+title',
+      function(error, response, body) {
+        var parsed = JSON.parse(body);
+        assert.equal(error, null);
+        assert.equal(response.statusCode, 200);
+        assert.equal(parsed.info, 'Search results retrieved successfully');
+        assert.equal(parsed.results.length, 1);
+        // set post_id for other tests
+        editPost.post_id = parsed.results[0]._id;
+        newComment.post_id = parsed.results[0]._id;
+        editComment.post_id = parsed.results[0]._id;
+        newReply.post_id = parsed.results[0]._id;
+        editReply.post_id = parsed.results[0]._id;
         done();
       })
     })
@@ -219,19 +233,6 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(error, null);
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post updated successfully');
-        done();
-      })
-    })
-  })
-  // search for post
-  describe('Get request to /search/:search_query', function() {
-    it('is retrieving search results', function(done) {
-      request('http://localhost:' + port + '/search/?query=This+is+an+edited+title',
-      function(error, response, body) {
-        var parsed = JSON.parse(body);
-        assert.equal(error, null);
-        assert.equal(response.statusCode, 200);
-        assert.equal(parsed.info, 'Search results retrieved successfully');
         done();
       })
     })

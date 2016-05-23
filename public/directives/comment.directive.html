@@ -12,31 +12,55 @@
       </div>
     </div>
     <div class="content">
-      <div class="header">{{comment.post.title}}</div>
+      <div class="header" ng-show="comment.post.link === null && comment.post.editing === false">{{comment.post.title}}</div>
+      <div class="header" ng-show="comment.post.link !== null && comment.post.editing === false"><a href="{{comment.post.link}}" target="_blank">{{comment.post.title}}</a></div>
+      <div class="header" ng-show="comment.post.link === null && comment.post.editing === true">{{comment.post.editTitle}}</div>
+      <div class="header" ng-show="comment.post.link !== null && comment.post.editing === true"><a href="{{comment.post.editLink}}" target="_blank">{{comment.post.editTitle}}</a></div>
       <div class="meta">
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="comment.post.date"></span>
         <span>by {{comment.post.user}}</span>
         <a ng-show="comment.post.isSaved === false" ng-click="post.save(comment.post)">save</a>
         <a ng-show="comment.post.isSaved === true" ng-click="post.unsave(comment.post)">unsave</a>
+        <a ng-show="comment.post.owner === true" ng-click="comment.post.editing = true">edit</a>
       </div>
       <div class="description">
-        <p>{{comment.post.content}}</p>
+        <p class="whitespace" ng-show="comment.post.editing === false">{{comment.post.content}}</p>
+        <p class="whitespace" ng-show="comment.post.editing === true">{{comment.post.editContent}}</p>
       </div>
     </div>
+  </div>
+  <div ng-show="comment.post.editing === true">
+    <div class="ui horizontal divider">Edit Post</div>
+    <form class="ui form" ng-submit="post.edit(comment.post)">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" ng-model="comment.post.editTitle" required>
+      </div>
+      <div class="field">
+        <label>URL (optional)</label>
+        <input type="text" ng-model="comment.post.editLink">
+      </div>
+      <div class="field">
+        <label>Text (optional)</label>
+        <textarea rows="3" ng-model="comment.post.editContent"></textarea>
+      </div>
+      <button class="ui basic blue button" ng-click="post.edit(comment.post)">Save</button>
+      <button class="ui basic black button" ng-click="post.cancel(comment.post)">Cancel</button>
+    </form>
   </div>
 </div>
 <div class="ui segment items">
   <div>
     <div class="item">
       <h3>
-        <span ng-show="item.comments === 1">{{comment.count}} Comment</span>
-        <span ng-show="item.comments !== 1">{{comment.count}} Comments</span>
+        <span ng-show="comment.count === 1">{{comment.count}} Comment</span>
+        <span ng-show="comment.count !== 1">{{comment.count}} Comments</span>
       </h3>
       <div class="ui comments">
-        <form class="ui reply form">
+        <form class="ui form">
           <div class="field">
-            <textarea ng-model="comment.text"></textarea>
+            <textarea ng-model="comment.text" rows="3"></textarea>
           </div>
           <div class="ui basic black submit button" ng-click="comment.reply(comment.text)">
             Add Reply

@@ -11,7 +11,6 @@ function leaderboard($http) {
 
     users.then(function(results) {
       vm.list = results.data.results;
-      console.log(vm.list);
     })
   }
 

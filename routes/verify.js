@@ -13,6 +13,7 @@ function verify(req, res, next) {
 
       if (results === null) {
         next();
+        return;
       }
 
       req.currentUser = results._id;

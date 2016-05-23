@@ -19,6 +19,15 @@ router.put('/post', function(req, res) {
 
     if (post[req.body.type].indexOf(req.currentUser.toString()) === -1) {
       post[req.body.type].push(req.currentUser.toString());
+
+      if (req.body.type === 'upvotes') {
+        post.score++;
+      }
+
+      if (req.body.type === 'downvotes') {
+        post.score--;
+      }
+
       post.save(function(error) {
         if (error) {
           res.json({ info: 'Error during update post', error: error });
@@ -69,6 +78,15 @@ router.put('/comment', function(req, res) {
 
     if (comment[req.body.type].indexOf(req.currentUser.toString()) === -1) {
       comment[req.body.type].push(req.currentUser.toString());
+
+      if (req.body.type === 'upvotes') {
+        comment.score++;
+      }
+
+      if (req.body.type === 'downvotes') {
+        comment.score--;
+      }
+
       comment.save(function(error) {
         if (error) {
           res.json({ info: 'Error during update comment', error: error });
@@ -121,11 +139,13 @@ router.delete('/post', function(req, res) {
     var down = post.downvotes.indexOf(req.currentUser.toString());
     if (up !== -1) {
       post.upvotes.splice(up, 1);
+      post.score--;
       type = 'upvotes';
     }
 
     if (down !== -1) {
       post.downvotes.splice(down, 1);
+      post.score++;
       type = 'downvotes';
     }
 
@@ -178,11 +198,13 @@ router.delete('/comment', function(req, res) {
     var down = comment.downvotes.indexOf(req.currentUser.toString());
     if (up !== -1) {
       comment.upvotes.splice(up, 1);
+      comment.score--;
       type = 'upvotes';
     }
 
     if (down !== -1) {
       comment.downvotes.splice(down, 1);
+      comment.score++;
       type = 'downvotes';
     }
 
