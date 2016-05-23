@@ -146,6 +146,13 @@ router.delete('/', forbid, function(req, res) {
 // used to dynamically display user's upvotes/downvotes on a post
 function addTracker(req, results) {
   results.forEach(function(element, index, array) {
+    // for editing
+    element.editing = false;
+    element.owner = false;
+    element.editTitle = element.title;
+    element.editLink = element.link;
+    element.editContent = element.content;
+    // for tracking votes
     element.score = element.upvotes.length - element.downvotes.length;
     element.up = [element.score + 1, element.score];
     element.down = [element.score - 1, element.score];
@@ -153,6 +160,10 @@ function addTracker(req, results) {
 
     if (!req.currentUser) {
       return;
+    }
+
+    if (req.currentUser && req.currentUser.toString() === element.user_id) {
+      element.owner = true;
     }
 
     if (element.upvotes.indexOf(req.currentUser.toString()) !== -1) {

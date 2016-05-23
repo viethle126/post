@@ -12,8 +12,10 @@
       </div>
     </div>
     <div class="content">
-      <div class="header" ng-show="item.link === null"><a href="#/comments/{{item._id}}">{{item.title}}</a></div>
-      <div class="header" ng-show="item.link !== null"><a href="{{item.link}}" target="_blank">{{item.title}}</a></div>
+      <div class="header" ng-show="item.link === null && item.editing === false"><a href="#/comments/{{item._id}}">{{item.title}}</a></div>
+      <div class="header" ng-show="item.link !== null && item.editing === false"><a href="{{item.link}}" target="_blank">{{item.title}}</a></div>
+      <div class="header" ng-show="item.link === null && item.editing === true"><a href="#/comments/{{item._id}}">{{item.editTitle}}</a></div>
+      <div class="header" ng-show="item.link !== null && item.editing === true"><a href="{{item.editLink}}" target="_blank">{{item.editTitle}}</a></div>
       <div class="meta">
         <span class="itemspan">posted</span>
         <span class="itemspan" am-time-ago="item.date"></span>
@@ -22,7 +24,27 @@
         <a href="#/comments/{{item._id}}" ng-show="item.comments !== 1">{{item.comments}} comments</a>
         <a ng-show="item.isSaved === false" ng-click="post.save(item)">save</a>
         <a ng-show="item.isSaved === true" ng-click="post.unsave(item)">unsave</a>
+        <a ng-show="item.owner === true" ng-click="item.editing = true">edit</a>
       </div>
     </div>
+  </div>
+  <div ng-show="item.editing === true">
+    <div class="ui horizontal divider">Edit Post</div>
+    <form class="ui form" ng-submit="post.edit(item)">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" ng-model="item.editTitle" required>
+      </div>
+      <div class="field">
+        <label>URL (optional)</label>
+        <input type="text" ng-model="item.editLink">
+      </div>
+      <div class="field">
+        <label>Text (optional)</label>
+        <textarea rows="3" ng-model="item.editContent"></textarea>
+      </div>
+      <button class="ui basic blue button" ng-click="post.edit(item)">Save</button>
+      <button class="ui basic black button" ng-click="post.cancel(item)">Cancel</button>
+    </form>
   </div>
 </div>

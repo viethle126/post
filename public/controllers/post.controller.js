@@ -40,6 +40,34 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
     })
   }
 
+  vm.edit = function(item) {
+    var data = {
+      post_id: item._id,
+      title: item.editTitle,
+      link: item.editLink,
+      text: item.editContent
+    }
+
+    var update = $http.put('/posts', data);
+
+    update.then(function() {
+      item.title = item.editTitle;
+      item.link = item.editLink;
+      item.content = item.editContent;
+      item.editing = false;
+    }, function(error) {
+      console.error(error);
+      // will implement notifications later
+    })
+  }
+
+  vm.cancel = function(item) {
+    item.editTitle = item.title;
+    item.editLink = item.link;
+    item.editContent = item.content;
+    item.editing = false;
+  }
+
   vm.refresh = function(path) {
     var request = $http.get(path);
 
