@@ -41,6 +41,10 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
   }
 
   vm.edit = function(item) {
+    if (item.editTitle === undefined || item.editTitle === '') {
+      return;
+    }
+
     var data = {
       post_id: item._id,
       title: item.editTitle,
@@ -96,6 +100,6 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
   }
 
   vm.unsave = function(item) {
-    saver.unsave(item);
+    saver.save(item, 'undo');
   }
 }

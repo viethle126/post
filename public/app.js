@@ -20,6 +20,7 @@ app.config(['$routeProvider', function($routeProvider) {
     controllerAs: 'post',
   })
   .when('/comments/:post_id', {
+    // declare controller to pass routeParams
     templateUrl: 'views/comments.view.html',
     controller: 'commentController',
     controllerAs: 'comment',
