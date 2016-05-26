@@ -18,6 +18,7 @@ router.put('/', function(req, res) {
 
     if (post.saves.indexOf(req.currentUser.toString()) === -1) {
       post.saves.push(req.currentUser.toString());
+
       post.save(function(error) {
         if (error) {
           res.json({ info: 'Error during update post', error: error });
@@ -41,7 +42,7 @@ router.put('/', function(req, res) {
         })
       })
     } else {
-      res.status(200).json({ info: 'Post is already in saved' });
+      res.status(200).json({ info: 'Post is already saved' });
     }
   })
 })

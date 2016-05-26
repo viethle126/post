@@ -4,7 +4,7 @@ var forbid = require('./forbid');
 var User = require('../models/user');
 var Post = require('../models/post');
 
-// create
+// create post
 router.post('/', forbid, function(req, res) {
   var post = new Post({
     user: req.cookies.user,
@@ -38,7 +38,7 @@ router.post('/', forbid, function(req, res) {
     })
   })
 })
-// read
+// get all posts
 router.get('/', function(req, res) {
   Post.find({}).sort({score: -1}).lean().exec(function(error, results) {
     if (error) {
@@ -51,7 +51,7 @@ router.get('/', function(req, res) {
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
-// read saved
+// get all saved posts
 router.get('/saved', forbid, function(req, res) {
   var user = req.currentUser.toString();
   Post.find({ 'saves': user }).sort({score: -1}).lean().exec(function(error, results) {
@@ -65,7 +65,7 @@ router.get('/saved', forbid, function(req, res) {
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
   })
 })
-// read specific, for comments
+// get specific post for comments
 router.get('/one/:post_id', function(req, res) {
   Post.find({ _id: req.params.post_id }).lean().exec(function(error, results) {
     if (error) {
@@ -78,7 +78,7 @@ router.get('/one/:post_id', function(req, res) {
     res.status(200).json({ info: 'Post retrieved successfully', results: addTracker(req, results) });
   })
 })
-// update
+// update post
 router.put('/', forbid, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
     if (error) {
@@ -143,7 +143,7 @@ router.delete('/', forbid, function(req, res) {
     })
   })
 })
-// used to dynamically display user's upvotes/downvotes on a post
+// determine edit permission and upvote/downvote state
 function addTracker(req, results) {
   results.forEach(function(element, index, array) {
     // for editing
@@ -165,18 +165,18 @@ function addTracker(req, results) {
     if (!req.currentUser) {
       return;
     }
-
+    // allow editing
     if (req.currentUser && req.currentUser.toString() === element.user_id) {
       element.owner = true;
     }
-
+    // track upvote state
     if (element.upvotes.indexOf(req.currentUser.toString()) !== -1) {
       element.state = 'upvoted';
       element.up = [element.score, element.score - 1];
       element.down = [element.score - 2, element.score - 1];
       return;
     }
-
+    // track downvote state
     if (element.downvotes.indexOf(req.currentUser.toString()) !== -1) {
       element.state = 'downvoted';
       element.up = [element.score + 2, element.score + 1];
@@ -186,7 +186,7 @@ function addTracker(req, results) {
   })
   return results;
 }
-
+//
 function isSaved(req, results) {
   results.forEach(function(element, index, array) {
     if (req.currentUser) {

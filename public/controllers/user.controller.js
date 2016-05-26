@@ -8,7 +8,6 @@ function user($http, dashboard) {
   var vm = this;
   vm.error = false;
   vm.card = '../views/login.view.html';
-  activate();
 
   function activate() {
     dashboard.get(vm);
@@ -54,4 +53,6 @@ function user($http, dashboard) {
       vm.card = '../views/login.view.html';
     })
   }
+
+  activate();
 }

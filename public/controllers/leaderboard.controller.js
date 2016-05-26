@@ -6,6 +6,7 @@ app.$inject = ['$http'];
 
 function leaderboard($http) {
   var vm = this;
+  
   vm.activate = function() {
     var users = $http.get('/leaderboard');
 

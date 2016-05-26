@@ -4,8 +4,9 @@ var isSaved = require('./posts').isSaved;
 // mongoose
 var Post = require('../models/post');
 
+// search posts: match by title or user
 router.get('/', function(req, res) {
-  Post.find({}).lean().exec(function(error, results) {
+  Post.find({}).lean().exec(function(error, posts) {
     if (error) {
       res.json({ info: 'Error during find posts', error: error });
       return;
@@ -14,7 +15,7 @@ router.get('/', function(req, res) {
     var payload = [];
     var search = new RegExp(req.query.query, 'i');
 
-    results.forEach(function(element, index, array) {
+    posts.forEach(function(element, index, array) {
       if (element.title.match(search) !== null) {
         payload.push(element);
       }
