@@ -1,4 +1,4 @@
-# post: recreating Reddit with Angular
+# post: AngularJS-flavored message board
 
 **Features** Updated 5/24/16
 * Log in or sign up

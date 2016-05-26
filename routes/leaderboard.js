@@ -2,6 +2,7 @@ var router = require('express').Router();
 // mongoose
 var User = require('../models/user');
 
+// get top five contributors
 router.get('/', function(req, res) {
   User.find({}).sort({score: -1}).limit(5).exec(function(error, results) {
     if (error) {
@@ -15,7 +16,7 @@ router.get('/', function(req, res) {
       var user = {
         user: element.user,
         score: element.score
-      }
+      };
 
       payload.push(user);
     })

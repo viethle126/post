@@ -5,7 +5,7 @@ var addTracker = require('./posts').addTracker;
 var Post = require('../models/post')
 var Comment = require('../models/comment');
 
-// create
+// create comment
 router.post('/', forbid, function(req, res) {
   var comment = new Comment({
     user: req.cookies.user,
@@ -39,7 +39,7 @@ router.post('/', forbid, function(req, res) {
     })
   })
 })
-// read
+// get comments for a specific post
 router.get('/:post_id', function(req, res) {
   Comment.find({ post_id: req.params.post_id }).lean().exec(function(error, results) {
     if (error) {
@@ -50,7 +50,7 @@ router.get('/:post_id', function(req, res) {
     res.status(200).json({ info: 'Comments retrieved successfully', results: addTracker(req, results) });
   })
 })
-// update
+// update comment
 router.put('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
     if (error) {
@@ -76,7 +76,7 @@ router.put('/', forbid, function(req, res) {
     })
   })
 })
-// delete
+// delete comment
 router.delete('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
     if (error) {
