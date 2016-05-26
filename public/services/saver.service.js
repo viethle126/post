@@ -6,37 +6,18 @@ dashboard.$inject = ['$http'];
 
 function saver($http) {
 
-  function save(item) {
+  function save(item, undo) {
     var data = {
       post_id: item._id
     }
 
     $http({
       url: '/save',
-      method: 'PUT',
+      method: undo ? 'DELETE' : 'PUT',
       headers: { 'Content-type': 'application/json' },
       data: data
     }).then(function() {
-      item.isSaved = true;
-      return item;
-    }, function(error) {
-      console.error(error);
-      // will implement notifications later
-    })
-  }
-
-  function unsave(item) {
-    var data = {
-      post_id: item._id
-    }
-
-    $http({
-      url: '/save',
-      method: 'DELETE',
-      headers: { 'Content-type': 'application/json' },
-      data: data
-    }).then(function() {
-      item.isSaved = false;
+      item.isSaved = undo ? false : true;
       return item;
     }, function(error) {
       console.error(error);
@@ -46,6 +27,5 @@ function saver($http) {
 
   return {
     save: save,
-    unsave: unsave
   }
 }
