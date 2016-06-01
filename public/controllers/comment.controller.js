@@ -49,15 +49,23 @@ function comment($http, $routeParams, moment, voter) {
   }
 
   vm.reply = function(text, original) {
+    if (text === undefined || text === '') {
+      return;
+    }
+
     var data = {
       post_id: vm.post_id,
-      reply_to: original ? original : 'post',
+      reply_to: original ? original._id : 'post',
       comment: text
     }
 
     var replying = $http.post('/comments', data);
 
     replying.then(function() {
+      if (original) {
+        original.replying = false;
+      }
+
       vm.text = '';
       vm.loadComments();
     }, function(error) {
@@ -67,7 +75,10 @@ function comment($http, $routeParams, moment, voter) {
   }
 
   vm.edit = function(item) {
-    console.log(item);
+    if (item.editComment === undefined || item.editComment === '') {
+      return;
+    }
+
     var data = {
       comment_id: item._id,
       comment: item.editComment
