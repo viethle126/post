@@ -60,12 +60,14 @@
       <div class="ui comments">
         <form class="ui form">
           <div class="field">
-            <textarea ng-model="comment.text" rows="3"></textarea>
+            <textarea ng-model="comment.text" name="comment.text" rows="3" required></textarea>
           </div>
           <div class="ui basic black submit button" ng-click="comment.reply(comment.text)">
             Add Reply
           </div>
         </form>
+      </div>
+      <div class="ui comments">
         <!-- start comment section -->
         <div class="comment" ng-repeat="item in comment.comments">
           <div class="content">
@@ -76,7 +78,7 @@
               <span ng-show="item.score !== 1">{{item.score}} Points</span>
             </div>
             <div class="text whitespace" ng-show="item.editing === false">{{item.comment}}</div>
-            <div class="text whitespace" ng-show="item.editing === true">{{item.comment}}</div>
+            <div class="text whitespace" ng-show="item.editing === true">{{item.editComment}}</div>
             <div class="actions">
               <a ng-click="comment.up(item)">
                 <i class="chevron up icon" ng-class="{ blue: item.score === item.up[0] }"></i>
@@ -84,7 +86,9 @@
               <a ng-click="comment.down(item)">
                 <i class="chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
               </a>
-              <a>reply</a>
+              <!-- removed for heroku release, reimplement in issue #15
+              <a ng-click="item.replying = true">reply</a>
+              -->
               <a ng-show="item.owner === true" ng-click="item.editing = true">edit</a>
             </div>
           </div>
@@ -95,13 +99,26 @@
               <div class="field">
                 <textarea rows="3" ng-model="item.editComment"></textarea>
               </div>
-              <button class="ui basic blue button" ng-click="comment.edit(item)">Save</button>
+              <button type="submit" class="ui basic blue button">Save</button>
               <button class="ui basic black button" ng-click="comment.cancel(item)">Cancel</button>
             </form>
           </div>
+          <!-- reply -->
+          <!-- removed for heroku release, reimplement in issue #15
+          <div ng-show="item.replying === true">
+            <br>
+            <form class="ui form" ng-submit="comment.reply(item.reply, item)">
+              <div class="field">
+                <textarea rows="3" ng-model="item.reply" required></textarea>
+              </div>
+              <button type="submit" class="ui basic blue button">Reply</button>
+              <button class="ui basic black button" ng-click="comment.cancel(item)">Cancel</button>
+            </form>
+          </div>
+          -->
           <br>
-          <!-- end comment section -->
         </div>
       </div>
     </div>
   </div>
+</div>
