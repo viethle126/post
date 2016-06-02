@@ -86,9 +86,7 @@
               <a ng-click="comment.down(item)">
                 <i class="chevron down icon" ng-class="{ blue: item.score === item.down[0] }"></i>
               </a>
-              <!-- removed for heroku release, reimplement in issue #15
               <a ng-click="item.replying = true">reply</a>
-              -->
               <a ng-show="item.owner === true" ng-click="item.editing = true">edit</a>
             </div>
           </div>
@@ -104,7 +102,6 @@
             </form>
           </div>
           <!-- reply -->
-          <!-- removed for heroku release, reimplement in issue #15
           <div ng-show="item.replying === true">
             <br>
             <form class="ui form" ng-submit="comment.reply(item.reply, item)">
@@ -115,8 +112,8 @@
               <button class="ui basic black button" ng-click="comment.cancel(item)">Cancel</button>
             </form>
           </div>
-          -->
           <br>
+          <thread thread="item.thread"></thread>
         </div>
       </div>
     </div>

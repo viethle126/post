@@ -1,0 +1,46 @@
+<div class="ui comments">
+  <div class="comment">
+    <div class="content">
+      <a href="#/search/{{reply.user}}" target="_blank">{{reply.user}}</a>
+      <div class="metadata">
+        <span class="itemspan" am-time-ago="reply.date"></span>
+        <span ng-show="reply.score === 1">{{reply.score}} Point</span>
+        <span ng-show="reply.score !== 1">{{reply.score}} Points</span>
+      </div>
+      <div class="text whitespace" ng-show="reply.editing === false">{{reply.comment}}</div>
+      <div class="text whitespace" ng-show="reply.editing === true">{{reply.editComment}}</div>
+      <div class="actions">
+        <a ng-click="comment.up(reply)">
+          <i class="chevron up icon" ng-class="{ blue: reply.score === reply.up[0] }"></i>
+        </a>
+        <a ng-click="comment.down(reply)">
+          <i class="chevron down icon" ng-class="{ blue: reply.score === reply.down[0] }"></i>
+        </a>
+        <a ng-click="reply.replying = true">reply</a>
+        <a ng-show="reply.owner === true" ng-click="reply.editing = true">edit</a>
+      </div>
+    </div>
+    <!-- edit -->
+    <div ng-show="reply.editing === true">
+      <br>
+      <form class="ui form" ng-submit="comment.edit(reply)">
+        <div class="field">
+          <textarea rows="3" ng-model="reply.editComment"></textarea>
+        </div>
+        <button type="submit" class="ui basic blue button">Save</button>
+        <button class="ui basic black button" ng-click="comment.cancel(reply)">Cancel</button>
+      </form>
+    </div>
+    <!-- reply -->
+    <div ng-show="reply.replying === true">
+      <br>
+      <form class="ui form" ng-submit="comment.reply(reply.reply, reply)">
+        <div class="field">
+          <textarea rows="3" ng-model="reply.reply"></textarea>
+        </div>
+        <button type="submit" class="ui basic blue button">Reply</button>
+        <button class="ui basic black button" ng-click="comment.cancel(reply)">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
