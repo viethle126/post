@@ -6,9 +6,6 @@ function replies($compile) {
   return {
     restrict: "E",
     replace: true,
-    scope: {
-        reply: '='
-    },
     templateUrl: 'directives/replies.directive.html',
     link: function(scope, element, attributes) {
       if (scope.reply.thread) {

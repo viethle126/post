@@ -44,6 +44,8 @@ div.ui.image {
 
 .ui.comments, .comment {
   max-width: 100% !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .ui.statistic>.value {
