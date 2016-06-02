@@ -44,8 +44,22 @@ function comment($http, $routeParams, moment, voter) {
         return;
       })
       vm.comments = vm.comments.reverse();
+      vm.comments.forEach(function(element, index, array) {
+        vm.tree(element);
+      })
       return;
     })
+  }
+
+  vm.tree = function(comment) {
+    if (vm.replies[comment._id]) {
+      comment.thread = vm.replies[comment._id];
+      comment.thread.forEach(function(element, index, array) {
+        vm.tree(element);
+      })
+    } else {
+      return comment;
+    }
   }
 
   vm.reply = function(text, original) {
