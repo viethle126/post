@@ -4,7 +4,7 @@ app.controller('userController', user);
 
 app.$inject = ['$http', 'dashboard'];
 
-function user($http, dashboard) {
+function user($http, $location, dashboard) {
   var vm = this;
   vm.error = false;
   vm.card = '../views/login.view.html';
@@ -24,6 +24,7 @@ function user($http, dashboard) {
     signup.then(function(results) {
       dashboard.get(vm);
       vm.card = '../views/dashboard.view.html';
+      $location.path('#/home');
     }, function(error) {
       vm.error = 409;
     })
@@ -40,6 +41,7 @@ function user($http, dashboard) {
     login.then(function(response) {
       dashboard.get(vm);
       vm.card = '../views/dashboard.view.html';
+      $location.path('#/home');
     }, function(error) {
       vm.error = 401;
     })
@@ -51,6 +53,7 @@ function user($http, dashboard) {
     logout.then(function(results) {
       vm.error = false;
       vm.card = '../views/login.view.html';
+      $location.path('#/home');
     })
   }
 
