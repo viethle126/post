@@ -1,6 +1,18 @@
 <div class="ui comments">
-  <div class="comment">
+  <div class="comment" ng-show="reply.collapse === true">
     <div class="content">
+      <a ng-click="reply.collapse = false">[+]</a>
+      <a href="#/search/{{reply.user}}" target="_blank">{{reply.user}}</a>
+      <div class="metadata">
+        <span class="itemspan" am-time-ago="reply.date"></span>
+        <span ng-show="reply.score === 1">{{reply.score}} Point</span>
+        <span ng-show="reply.score !== 1">{{reply.score}} Points</span>
+      </div>
+    </div>
+  </div>
+  <div class="comment" ng-show="reply.collapse !== true">
+    <div class="content">
+      <a ng-click="reply.collapse = true">[-]</a>
       <a href="#/search/{{reply.user}}" target="_blank">{{reply.user}}</a>
       <div class="metadata">
         <span class="itemspan" am-time-ago="reply.date"></span>
