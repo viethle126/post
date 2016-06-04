@@ -7,8 +7,8 @@ gulp.task('lint', function() {
   return gulp.src(['**/*.js', '!node_modules/**', '!semantic/**', '!public/dist/**'])
   .pipe(eslint())
   .pipe(eslint.format())
-  .pipe(eslint.failAfterError())
-})
+  .pipe(eslint.failAfterError());
+});
 
 gulp.task('mocha', ['lint'], function () {
   return gulp.src('app.spec.js')
@@ -16,9 +16,9 @@ gulp.task('mocha', ['lint'], function () {
   .once('end', function() {
     process.exit();
   });
-})
+});
 
 gulp.task('default', function() {
   nodemon({ script: 'app.js' })
-  .on('start', ['mocha'])
-})
+  .on('start', ['mocha']);
+});

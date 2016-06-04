@@ -2,7 +2,7 @@ var router = require('express').Router();
 var forbid = require('./forbid');
 var addTracker = require('./posts').addTracker;
 // mongoose
-var Post = require('../models/post')
+var Post = require('../models/post');
 var Comment = require('../models/comment');
 
 // create comment
@@ -14,7 +14,7 @@ router.post('/', forbid, function(req, res) {
     reply_to: req.body.reply_to,
     date: Date(),
     comment: req.body.comment
-  })
+  });
 
   comment.save(function(error) {
     if (error) {
@@ -23,7 +23,7 @@ router.post('/', forbid, function(req, res) {
     }
 
     res.status(200).json({ info: 'Comment submitted successfully' });
-  })
+  });
 
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
     if (error) {
@@ -36,9 +36,9 @@ router.post('/', forbid, function(req, res) {
       if (error) {
         throw new Error(error);
       }
-    })
-  })
-})
+    });
+  });
+});
 // get comments for a specific post
 router.get('/:post_id', function(req, res) {
   Comment.find({ post_id: req.params.post_id }).lean().exec(function(error, results) {
@@ -48,8 +48,8 @@ router.get('/:post_id', function(req, res) {
     }
 
     res.status(200).json({ info: 'Comments retrieved successfully', results: addTracker(req, results) });
-  })
-})
+  });
+});
 // update comment
 router.put('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
@@ -73,9 +73,9 @@ router.put('/', forbid, function(req, res) {
       }
 
       res.status(200).json({ info: 'Comment updated successfully' });
-    })
-  })
-})
+    });
+  });
+});
 // delete comment
 router.delete('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
@@ -94,10 +94,10 @@ router.delete('/', forbid, function(req, res) {
         res.json({ info: 'Error during delete comment' });
         return;
       }
-    })
+    });
 
     res.status(200).json({ info: 'Comment deleted successfully' });
-  })
+  });
 
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
     if (error) {
@@ -110,8 +110,8 @@ router.delete('/', forbid, function(req, res) {
       if (error) {
         throw new Error(error);
       }
-    })
-  })
-})
+    });
+  });
+});
 
 module.exports = router;

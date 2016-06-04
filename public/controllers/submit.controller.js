@@ -12,7 +12,7 @@ function submit($http, $location) {
       title: title,
       link: link,
       content: content
-    }
+    };
 
     var post = $http.post('/posts', data);
 
@@ -21,6 +21,6 @@ function submit($http, $location) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 }

@@ -37,10 +37,10 @@ router.post('/', function(req, res) {
         res.cookie('user', req.body.user);
         res.cookie('session', session);
         res.status(200).json({ info: 'User signed up successfully' });
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 // get dashboard
 router.get('/', function(req, res) {
   if (req.cookies.user && req.cookies.session) {
@@ -64,11 +64,11 @@ router.get('/', function(req, res) {
         return;
       }
       res.send();
-    })
+    });
   } else {
     res.send();
   }
-})
+});
 // login: compare hash, generate session cookie
 router.post('/login', function(req, res) {
   var session = makeCookie();
@@ -94,7 +94,7 @@ router.post('/login', function(req, res) {
           if (error) {
             throw new Error(error);
           }
-        })
+        });
 
         res.cookie('user', req.body.user);
         res.cookie('session', session);
@@ -103,9 +103,9 @@ router.post('/login', function(req, res) {
       }
 
       res.status(401).json({ info: 'Invalid user/password' });
-    })
-  })
-})
+    });
+  });
+});
 // logout: clear session token from database, clear cookies
 router.get('/logout', function(req, res) {
   User.findOne({ user: req.cookies.user }, function(error, user) {
@@ -119,13 +119,13 @@ router.get('/logout', function(req, res) {
       if (error) {
         throw new Error(error);
       }
-    })
+    });
 
     res.clearCookie('user');
     res.clearCookie('session');
     res.status(200).json({ info: 'User logged out successfully' });
-  })
-})
+  });
+});
 
 // generate session id cookie
 function makeCookie() {

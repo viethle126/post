@@ -19,7 +19,7 @@ function comment($http, $routeParams, moment, voter) {
     request.then(function(response) {
       vm.post = response.data.results[0];
       return vm.post;
-    })
+    });
   }
 
   vm.loadComments = function() {
@@ -42,13 +42,13 @@ function comment($http, $routeParams, moment, voter) {
         }
         vm.comments.push(element);
         return;
-      })
+      });
       vm.comments = vm.comments.reverse();
       vm.comments.forEach(function(element, index, array) {
         vm.tree(element);
-      })
+      });
       return;
-    })
+    });
   }
 
   vm.tree = function(comment) {
@@ -56,7 +56,7 @@ function comment($http, $routeParams, moment, voter) {
       comment.thread = vm.replies[comment._id];
       comment.thread.forEach(function(element, index, array) {
         vm.tree(element);
-      })
+      });
     } else {
       return comment;
     }
@@ -71,7 +71,7 @@ function comment($http, $routeParams, moment, voter) {
       post_id: vm.post_id,
       reply_to: original ? original._id : 'post',
       comment: text
-    }
+    };
 
     var replying = $http.post('/comments', data);
 
@@ -85,7 +85,7 @@ function comment($http, $routeParams, moment, voter) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 
   vm.edit = function(item) {
@@ -96,7 +96,7 @@ function comment($http, $routeParams, moment, voter) {
     var data = {
       comment_id: item._id,
       comment: item.editComment
-    }
+    };
 
     var update = $http.put('/comments', data);
 
@@ -106,7 +106,7 @@ function comment($http, $routeParams, moment, voter) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 
   vm.cancel = function(item) {

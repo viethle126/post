@@ -38,14 +38,14 @@ router.put('/', function(req, res) {
             }
 
             res.status(200).json({ info: 'Post added to saved' });
-          })
-        })
-      })
+          });
+        });
+      });
     } else {
       res.status(200).json({ info: 'Post is already saved' });
     }
-  })
-})
+  });
+});
 // remove from saved
 router.delete('/', function(req, res) {
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
@@ -81,10 +81,10 @@ router.delete('/', function(req, res) {
           }
 
           res.status(200).json({ info: 'Post removed from saved' });
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});
 
 module.exports = router;

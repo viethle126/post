@@ -17,17 +17,17 @@ describe('Create user, log in, view leaderboard', function() {
   var testUser = {
     user: 'postUserTest',
     password: 'post'
-  }
+  };
 
   var wrongUser = {
     user: 'postUserTest',
     password: 'wrong'
-  }
+  };
 
   var unknownUser = {
     user: 'wrongUserTest',
     password: 'wrong'
-  }
+  };
 
   // create new user
   describe('Post request to /user', function() {
@@ -41,9 +41,9 @@ describe('Create user, log in, view leaderboard', function() {
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'User signed up successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // user name already in use
   describe('Second post request to /user', function() {
     it('is failing to create a new user', function(done) {
@@ -56,9 +56,9 @@ describe('Create user, log in, view leaderboard', function() {
         assert.equal(response.statusCode, 409);
         assert.equal(body.info, 'Name already in use');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // log in, correct credentials
   describe('Post request to /user/login with right credentials', function() {
     it('is logging in', function(done) {
@@ -71,9 +71,9 @@ describe('Create user, log in, view leaderboard', function() {
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'User logged in successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // log in, incorrect credentials
   describe('Post request to /user/login with wrong password', function() {
     it('is failing to log in', function(done) {
@@ -86,9 +86,9 @@ describe('Create user, log in, view leaderboard', function() {
         assert.equal(response.statusCode, 401);
         assert.equal(body.info, 'Invalid user/password');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // log in, unknown user
   describe('Post request to /user/login with unknown user', function() {
     it('is failing to log in', function(done) {
@@ -101,9 +101,9 @@ describe('Create user, log in, view leaderboard', function() {
         assert.equal(response.statusCode, 401);
         assert.equal(body.info, 'Invalid user/password');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // get leaderboard
   describe('Get request to /leaderboard', function() {
     it('is retrieving list of top contributors', function(done) {
@@ -118,10 +118,10 @@ describe('Create user, log in, view leaderboard', function() {
         assert.notEqual(parsed.results.length, 0);
         assert.isAtMost(parsed.results.length, 5);
         done();
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 
 describe('Create post, comment and replies; Upvote/downvote; Search', function() {
   this.timeout(0);
@@ -130,35 +130,35 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
   var testUser = {
     user: 'postUserTest',
     password: 'post'
-  }
+  };
 
   var newPost = {
     title: 'This is a test-generated title',
     content: 'This is test-generated content'
-  }
+  };
 
   var editPost = {
     title: 'This is an edited title',
     content: 'This is edited content'
-  }
+  };
 
   var newComment = {
     comment: 'This is a test-generated comment to a post',
     reply_to: 'post'
-  }
+  };
 
   var editComment = {
     comment: 'This is an edited comment',
     reply_to: 'post'
-  }
+  };
 
   var newReply = {
     comment: 'This is a test-generated reply to another comment'
-  }
+  };
 
   var editReply = {
     comment: 'This is an edited reply',
-  }
+  };
 
   // create post
   describe('Post request to /posts', function() {
@@ -172,9 +172,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post submitted successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // read posts
   describe('Get request to /posts', function() {
     it('is retrieving posts', function(done) {
@@ -186,9 +186,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Posts retrieved successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // search for post
   describe('Get request to /search/:search_query', function() {
     it('is retrieving search results', function(done) {
@@ -206,9 +206,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         newReply.post_id = parsed.results[0]._id;
         editReply.post_id = parsed.results[0]._id;
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // read single post
   describe('Get request to /posts/one/:post_id', function() {
     it('is retrieving targeted post', function(done) {
@@ -219,9 +219,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Post retrieved successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // update post
   describe('Put request to /posts', function() {
     it('is updating a post', function(done) {
@@ -234,9 +234,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post updated successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // add post to saved
   describe('Put request to /save', function() {
     it('is adding a post to saved', function(done) {
@@ -249,9 +249,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post added to saved');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // remove post from saved
   describe('Delete request to /save', function() {
     it('is removing a post from saved', function(done) {
@@ -264,9 +264,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post removed from saved');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // upvote a post
   describe('Put request to /vote/post, upvote', function() {
     it('is upvoting a post', function(done) {
@@ -280,9 +280,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote added successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // downvote a post
   describe('Put request to /vote/post, downvote', function() {
     it('is downvoting a post', function(done) {
@@ -296,9 +296,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote added successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // clear votes on a post
   describe('Delete request to /vote/post', function() {
     it('is clearing votes from a post', function(done) {
@@ -311,9 +311,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote cleared successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // create comment
   describe('Post request to /comments, reply to a post', function() {
     it('is creating a new comment', function(done) {
@@ -326,9 +326,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment submitted successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // read comment
   describe('Get request to /comments', function() {
     it('is retrieving comments', function(done) {
@@ -344,9 +344,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Comments retrieved successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // update comment
   describe('Put request to /comments', function() {
     it('is updating a comment', function(done) {
@@ -359,9 +359,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment updated successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // upvote a comment
   describe('Put request to /vote/comment, upvote', function() {
     it('is upvoting a comment', function(done) {
@@ -375,9 +375,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote added successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // downvote a comment
   describe('Put request to /vote/comment, downvote', function() {
     it('is downvoting a comment', function(done) {
@@ -391,9 +391,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote added successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // clear votes on a comment
   describe('Delete request to /vote/comment', function() {
     it('is clearing votes from a comment', function(done) {
@@ -406,9 +406,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Vote cleared successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // create reply
   describe('Post request to /comments, reply to a comment', function() {
     it('is creating a new reply', function(done) {
@@ -421,9 +421,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment submitted successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // read reply
   describe('Get request to /comments', function() {
     it('is retrieving replies', function(done) {
@@ -437,9 +437,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'Comments retrieved successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // update reply
   describe('Put request to /comments', function() {
     it('is updating a reply', function(done) {
@@ -452,9 +452,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment updated successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // delete reply
   describe('Delete request to /comments', function() {
     it('is deleting a reply', function(done) {
@@ -467,9 +467,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment deleted successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // delete comment
   describe('Delete request to /comments', function() {
     it('is deleting a comment', function(done) {
@@ -482,9 +482,9 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Comment deleted successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // delete post
   describe('Delete request to /posts', function() {
     it('is deleting a post', function(done) {
@@ -497,10 +497,10 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
         assert.equal(response.statusCode, 200);
         assert.equal(body.info, 'Post deleted successfully');
         done();
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 
 describe('Logout and cleanup', function() {
   this.timeout(0);
@@ -509,7 +509,7 @@ describe('Logout and cleanup', function() {
   var testUser = {
     user: 'postUserTest',
     password: 'post'
-  }
+  };
 
   // logout
   describe('Get request to /user/logout', function() {
@@ -523,9 +523,9 @@ describe('Logout and cleanup', function() {
         assert.equal(response.statusCode, 200);
         assert.equal(parsed.info, 'User logged out successfully');
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   // cleanup
   describe('Cleanup', function() {
     it('is removing testUser', function(done) {
@@ -533,10 +533,10 @@ describe('Logout and cleanup', function() {
         assert.equal(error, null);
         assert.equal(results.result.ok, 1);
         done();
-      })
-    })
-  })
+      });
+    });
+  });
   after(function() {
     server.close();
-  })
-})
+  });
+});

@@ -9,7 +9,7 @@ function saver($http) {
   function save(item, undo) {
     var data = {
       post_id: item._id
-    }
+    };
 
     $http({
       url: '/save',
@@ -22,7 +22,7 @@ function saver($http) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 
   return {
