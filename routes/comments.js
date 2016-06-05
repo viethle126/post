@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var router = require('express').Router();
 var forbid = require('./forbid');
 var addTracker = require('./posts').addTracker;
@@ -47,7 +48,10 @@ router.get('/:post_id', function(req, res) {
       return;
     }
 
-    res.status(200).json({ info: 'Comments retrieved successfully', results: addTracker(req, results) });
+    results = addTracker(req, results);
+    results = tree(results);
+
+    res.status(200).json({ info: 'Comments retrieved successfully', results: results });
   });
 });
 // update comment
@@ -113,5 +117,50 @@ router.delete('/', forbid, function(req, res) {
     });
   });
 });
+
+function tree(comments) {
+  var replies = {};
+  var payload = {
+    count: comments.length,
+    comments: []
+  };
+
+  comments.forEach(function(element, index, array) {
+    if (element.reply_to !== 'post') {
+      if (replies[element.reply_to]) {
+        replies[element.reply_to].push(element);
+        return;
+      } else {
+        replies[element.reply_to] = [];
+        replies[element.reply_to].push(element);
+        return;
+      }
+    }
+    payload.comments.push(element);
+    return;
+  });
+
+  payload.comments = _.sortBy(payload.comments, 'score').reverse();
+  payload.comments.forEach(function(element, index, array) {
+    branch(element, replies);
+  })
+
+  payload.comments.forEach(function(element, index, array) {
+    element.thread = _.sortBy(element.thread, 'score').reverse();
+  })
+
+  return payload;
+}
+
+function branch(element, replies) {
+  if (replies[element._id]) {
+    element.thread = replies[element._id];
+    element.thread.forEach(function(element, index, array) {
+      branch(element, replies);
+    });
+  } else {
+    return element;
+  }
+}
 
 module.exports = router;

@@ -335,7 +335,7 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
       request('http://localhost:' + port + '/comments/' + newComment.post_id,
       function(error, response, body) {
         var parsed = JSON.parse(body);
-        var added = parsed.results[parsed.results.length - 1];
+        var added = parsed.results.comments[0];
         editComment.comment_id = added._id;
         newReply.reply_to = added._id;
         editReply.reply_to = added._id;
@@ -430,7 +430,7 @@ describe('Create post, comment and replies; Upvote/downvote; Search', function()
       request('http://localhost:' + port + '/comments/' + newReply.post_id,
       function(error, response, body) {
         var parsed = JSON.parse(body);
-        var added = parsed.results[parsed.results.length - 1];
+        var added = parsed.results.comments[0].thread[0];
         editReply.comment_id = added._id;
         // set comment_id for other tests
         assert.equal(error, null);
