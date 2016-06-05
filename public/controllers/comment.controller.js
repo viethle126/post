@@ -26,40 +26,10 @@ function comment($http, $routeParams, moment, voter) {
     var request = $http.get('/comments/' + vm.post_id);
 
     request.then(function(response) {
-      vm.comments = [];
-      vm.replies = {};
-      vm.count = response.data.results.length;
-      response.data.results.forEach(function(element, index, array) {
-        if (element.reply_to !== 'post') {
-          if (vm.replies[element.reply_to]) {
-            vm.replies[element.reply_to].push(element);
-            return;
-          } else {
-            vm.replies[element.reply_to] = [];
-            vm.replies[element.reply_to].push(element);
-            return;
-          }
-        }
-        vm.comments.push(element);
-        return;
-      });
-      vm.comments = vm.comments.reverse();
-      vm.comments.forEach(function(element, index, array) {
-        vm.tree(element);
-      });
+      vm.comments = response.data.results.comments;
+      vm.count = response.data.results.count;
       return;
     });
-  }
-
-  vm.tree = function(comment) {
-    if (vm.replies[comment._id]) {
-      comment.thread = vm.replies[comment._id];
-      comment.thread.forEach(function(element, index, array) {
-        vm.tree(element);
-      });
-    } else {
-      return comment;
-    }
   }
 
   vm.reply = function(text, original) {
