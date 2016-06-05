@@ -10,7 +10,7 @@ function replies($compile) {
     link: function(scope, element, attributes) {
       if (scope.reply.thread) {
         $compile('<thread thread="reply.thread"></thread>')(scope, function(cloned, scope){
-          var target = element[0].lastElementChild
+          var target = element[0].lastElementChild;
           cloned.appendTo(target);
         });
       }

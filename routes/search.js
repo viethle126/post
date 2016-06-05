@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
       if (element.user.match(search) !== null) {
         payload.push(element);
       }
-    })
+    });
 
     if (req.currentUser) {
       isSaved(req, payload);
@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
     }
 
     res.status(200).json({ info: 'Search results retrieved successfully', results: payload });
-  })
-})
+  });
+});
 
 module.exports = router;

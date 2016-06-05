@@ -19,10 +19,10 @@ router.get('/', function(req, res) {
       };
 
       payload.push(user);
-    })
+    });
 
     res.status(200).json({ info: 'Top contributors retrieved successfully', results: payload });
-  })
-})
+  });
+});
 
 module.exports = router;

@@ -20,7 +20,7 @@ function dashboard($http) {
         vm.card = '../views/dashboard.view.html';
         return vm;
       }
-    })
+    });
   }
 
   return {

@@ -13,7 +13,7 @@ router.post('/', forbid, function(req, res) {
     title: req.body.title,
     link: req.body.link,
     content: req.body.content
-  })
+  });
 
   post.save(function(error) {
     if (error) {
@@ -34,10 +34,10 @@ router.post('/', forbid, function(req, res) {
         }
 
         res.status(200).json({ info: 'Post submitted successfully' });
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 // get all posts
 router.get('/', function(req, res) {
   Post.find({}).sort({score: -1}).lean().exec(function(error, results) {
@@ -49,8 +49,8 @@ router.get('/', function(req, res) {
     isSaved(req, results);
 
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
-  })
-})
+  });
+});
 // get all saved posts
 router.get('/saved', forbid, function(req, res) {
   var user = req.currentUser.toString();
@@ -63,8 +63,8 @@ router.get('/saved', forbid, function(req, res) {
     isSaved(req, results);
 
     res.status(200).json({ info: 'Posts retrieved successfully', results: addTracker(req, results) });
-  })
-})
+  });
+});
 // get specific post for comments
 router.get('/one/:post_id', function(req, res) {
   Post.find({ _id: req.params.post_id }).lean().exec(function(error, results) {
@@ -76,8 +76,8 @@ router.get('/one/:post_id', function(req, res) {
     isSaved(req, results);
 
     res.status(200).json({ info: 'Post retrieved successfully', results: addTracker(req, results) });
-  })
-})
+  });
+});
 // update post
 router.put('/', forbid, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
@@ -103,9 +103,9 @@ router.put('/', forbid, function(req, res) {
       }
 
       res.status(200).json({ info: 'Post updated successfully' });
-    })
-  })
-})
+    });
+  });
+});
 // delete
 router.delete('/', forbid, function(req, res) {
   Post.findOne({ _id: req.body.post_id, user_id: req.currentUser }, function(error, post) {
@@ -124,7 +124,7 @@ router.delete('/', forbid, function(req, res) {
         res.json({ info: 'Error during delete post' });
         return;
       }
-    })
+    });
 
     User.findOne({ _id: req.currentUser }, function(error, user) {
       if (error) {
@@ -139,10 +139,10 @@ router.delete('/', forbid, function(req, res) {
         }
 
         res.status(200).json({ info: 'Post deleted successfully' });
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 // determine edit permission and upvote/downvote state
 function addTracker(req, results) {
   results.forEach(function(element, index, array) {
@@ -183,7 +183,7 @@ function addTracker(req, results) {
       element.down = [element.score, element.score + 1];
       return;
     }
-  })
+  });
   return results;
 }
 //
@@ -199,7 +199,7 @@ function isSaved(req, results) {
     }
     element.isSaved = false;
     return;
-  })
+  });
 
   return results;
 }

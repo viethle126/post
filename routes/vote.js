@@ -50,8 +50,8 @@ function updateUser(user_id, type, res) {
       }
 
       res.status(200).json({ info: 'Vote added successfully' });
-    })
-  })
+    });
+  });
 }
 
 function configure(doc, user) {
@@ -113,8 +113,8 @@ function clearUser(user_id, config, res) {
       }
 
       res.status(200).json({ info: 'Vote cleared successfully' });
-    })
-  })
+    });
+  });
 }
 
 // add vote to post
@@ -139,9 +139,9 @@ router.put('/post', function(req, res) {
       }
 
       updateUser(post.user_id, req.body.type, res);
-    })
-  })
-})
+    });
+  });
+});
 // add vote to comment
 router.put('/comment', function(req, res) {
   Comment.findOne({ _id: req.body.comment_id }, function(error, comment) {
@@ -164,9 +164,9 @@ router.put('/comment', function(req, res) {
       }
 
       updateUser(comment.user_id, req.body.type, res);
-    })
-  })
-})
+    });
+  });
+});
 // clear votes, post
 router.delete('/post', function(req, res) {
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
@@ -193,9 +193,9 @@ router.delete('/post', function(req, res) {
       }
 
       clearUser(post.user_id, config, res);
-    })
-  })
-})
+    });
+  });
+});
 // clear votes, comment
 router.delete('/comment', function(req, res) {
   Comment.findOne({ _id: req.body.comment_id }, function(error, comment) {
@@ -222,8 +222,8 @@ router.delete('/comment', function(req, res) {
       }
 
       clearUser(comment.user_id, config, res);
-    })
-  })
-})
+    });
+  });
+});
 
 module.exports = router;

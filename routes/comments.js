@@ -1,8 +1,9 @@
+var _ = require('underscore');
 var router = require('express').Router();
 var forbid = require('./forbid');
 var addTracker = require('./posts').addTracker;
 // mongoose
-var Post = require('../models/post')
+var Post = require('../models/post');
 var Comment = require('../models/comment');
 
 // create comment
@@ -14,7 +15,7 @@ router.post('/', forbid, function(req, res) {
     reply_to: req.body.reply_to,
     date: Date(),
     comment: req.body.comment
-  })
+  });
 
   comment.save(function(error) {
     if (error) {
@@ -23,7 +24,7 @@ router.post('/', forbid, function(req, res) {
     }
 
     res.status(200).json({ info: 'Comment submitted successfully' });
-  })
+  });
 
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
     if (error) {
@@ -36,9 +37,9 @@ router.post('/', forbid, function(req, res) {
       if (error) {
         throw new Error(error);
       }
-    })
-  })
-})
+    });
+  });
+});
 // get comments for a specific post
 router.get('/:post_id', function(req, res) {
   Comment.find({ post_id: req.params.post_id }).lean().exec(function(error, results) {
@@ -47,9 +48,12 @@ router.get('/:post_id', function(req, res) {
       return;
     }
 
-    res.status(200).json({ info: 'Comments retrieved successfully', results: addTracker(req, results) });
-  })
-})
+    results = addTracker(req, results);
+    results = tree(results);
+
+    res.status(200).json({ info: 'Comments retrieved successfully', results: results });
+  });
+});
 // update comment
 router.put('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
@@ -73,9 +77,9 @@ router.put('/', forbid, function(req, res) {
       }
 
       res.status(200).json({ info: 'Comment updated successfully' });
-    })
-  })
-})
+    });
+  });
+});
 // delete comment
 router.delete('/', forbid, function(req, res) {
   Comment.findOne({ _id: req.body.comment_id, user_id: req.currentUser }, function(error, comment) {
@@ -94,10 +98,10 @@ router.delete('/', forbid, function(req, res) {
         res.json({ info: 'Error during delete comment' });
         return;
       }
-    })
+    });
 
     res.status(200).json({ info: 'Comment deleted successfully' });
-  })
+  });
 
   Post.findOne({ _id: req.body.post_id }, function(error, post) {
     if (error) {
@@ -110,8 +114,53 @@ router.delete('/', forbid, function(req, res) {
       if (error) {
         throw new Error(error);
       }
-    })
+    });
+  });
+});
+
+function tree(comments) {
+  var replies = {};
+  var payload = {
+    count: comments.length,
+    comments: []
+  };
+
+  comments.forEach(function(element, index, array) {
+    if (element.reply_to !== 'post') {
+      if (replies[element.reply_to]) {
+        replies[element.reply_to].push(element);
+        return;
+      } else {
+        replies[element.reply_to] = [];
+        replies[element.reply_to].push(element);
+        return;
+      }
+    }
+    payload.comments.push(element);
+    return;
+  });
+
+  payload.comments = _.sortBy(payload.comments, 'score').reverse();
+  payload.comments.forEach(function(element, index, array) {
+    branch(element, replies);
   })
-})
+
+  payload.comments.forEach(function(element, index, array) {
+    element.thread = _.sortBy(element.thread, 'score').reverse();
+  })
+
+  return payload;
+}
+
+function branch(element, replies) {
+  if (replies[element._id]) {
+    element.thread = replies[element._id];
+    element.thread.forEach(function(element, index, array) {
+      branch(element, replies);
+    });
+  } else {
+    return element;
+  }
+}
 
 module.exports = router;

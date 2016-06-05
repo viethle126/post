@@ -17,7 +17,7 @@ function user($http, $location, dashboard) {
     var data = {
       user: user,
       password: password
-    }
+    };
 
     var signup = $http.post('/user', data);
 
@@ -27,14 +27,14 @@ function user($http, $location, dashboard) {
       $location.path('#/home');
     }, function(error) {
       vm.error = 409;
-    })
+    });
   }
 
   vm.login = function(user, password) {
     var data = {
       user: user,
       password: password
-    }
+    };
 
     var login = $http.post('/user/login', data);
 
@@ -44,7 +44,7 @@ function user($http, $location, dashboard) {
       $location.path('#/home');
     }, function(error) {
       vm.error = 401;
-    })
+    });
   }
 
   vm.logout = function(user) {
@@ -54,7 +54,7 @@ function user($http, $location, dashboard) {
       vm.error = false;
       vm.card = '../views/login.view.html';
       $location.path('#/home');
-    })
+    });
   }
 
   activate();

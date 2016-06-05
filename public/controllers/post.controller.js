@@ -21,14 +21,14 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
       vm.refresh('/search/?query=' + $routeParams.search_query);
       return;
     }
-  })
+  });
 
   vm.submit = function(title, link, text) {
     var data = {
       title: title,
       link: link,
       text: text
-    }
+    };
 
     var post = $http.post('/posts', data);
 
@@ -37,7 +37,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 
   vm.edit = function(item) {
@@ -50,7 +50,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
       title: item.editTitle,
       link: item.editLink,
       content: item.editContent
-    }
+    };
 
     var update = $http.put('/posts', data);
 
@@ -62,7 +62,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
     }, function(error) {
       console.error(error);
       // will implement notifications later
-    })
+    });
   }
 
   vm.cancel = function(item) {
@@ -80,7 +80,7 @@ function post($http, $routeParams, $location, $scope, moment, voter, saver) {
       vm.list = posts !== undefined ? posts : [];
 
       return vm.list;
-    })
+    });
   }
 
   if ($routeParams.search_query) {

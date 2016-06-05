@@ -19,7 +19,7 @@ function verify(req, res, next) {
 
       req.currentUser = user._id;
       next();
-    })
+    });
   } else {
     next();
   }
