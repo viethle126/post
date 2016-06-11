@@ -54,6 +54,10 @@ div.content {
   margin-bottom: .5em !important;
 }
 
+.content>.content {
+  margin-bottom: 0 !important;
+}
+
 .ui.statistic>.value {
   font-size: 1rem !important;
 }
